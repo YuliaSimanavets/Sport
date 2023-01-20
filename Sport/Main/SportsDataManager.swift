@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SportsData {
+class SportsDataManager {
     
     private let typesOfSport = ["NCAA Football", "NFL", "MLB", "NBA", "NCAA Men's Basketball", "NHL", "UFC/MMA", "WNBA", "MLS", "EPL", "FRA1", "GER1", "ESP1", "ITA1", "UEFACHAMP", "FIFA"]
     

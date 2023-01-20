@@ -9,7 +9,7 @@ import UIKit
 
 class GeneralViewController: UIViewController {
 
-    var sportsData: SportsData?
+    var sportsDataManager: SportsDataManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,8 +18,8 @@ class GeneralViewController: UIViewController {
 
     }
     
-    func setSportsData(data: SportsData) {
-        sportsData = data
+    func setSportsDataManager(data: SportsDataManager) {
+        sportsDataManager = data
     }
 }
 

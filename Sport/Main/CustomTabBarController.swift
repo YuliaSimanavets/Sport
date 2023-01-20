@@ -12,11 +12,11 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let sportsData = SportsData()
+        let sportsDataManager = SportsDataManager()
         let general = GeneralViewController()
         let settings = SettingsViewController()
         
-        general.setSportsData(data: sportsData)
+        general.setSportsDataManager(data: sportsDataManager)
         
         self.setViewControllers([general, settings], animated: false)
         guard let items = tabBar.items else { return }
