@@ -18,7 +18,7 @@ class GeneralViewController: UIViewController {
 
     }
     
-    func setSportsDataManager(data: SportsDataManager) {
+    func set(_ data: SportsDataManager) {
         sportsDataManager = data
     }
 }
