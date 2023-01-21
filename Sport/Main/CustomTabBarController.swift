@@ -12,10 +12,13 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let general = GeneralViewController()
-        let settings = SettingsViewController()
+        let sportsDataManager = SportsDataManager()
+        let generalViewController = GeneralViewController()
+        let settingsViewController = SettingsViewController()
         
-        self.setViewControllers([general, settings], animated: false)
+        generalViewController.set(sportsDataManager)
+        
+        self.setViewControllers([generalViewController, settingsViewController], animated: false)
         guard let items = tabBar.items else { return }
         
         let images = ["tablecells.badge.ellipsis", "gearshape"]
