@@ -19,6 +19,8 @@
 		CA57A4E929786471005BE531 /* SportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA57A4E829786471005BE531 /* SportTests.swift */; };
 		CA57A4F329786471005BE531 /* SportUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA57A4F229786471005BE531 /* SportUITests.swift */; };
 		CA57A4F529786471005BE531 /* SportUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA57A4F429786471005BE531 /* SportUITestsLaunchTests.swift */; };
+		CAF2EBBF297C267B009DD50C /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */; };
+		CAF2EBC2297C26E7009DD50C /* SportTypesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2EBC1297C26E7009DD50C /* SportTypesCollectionViewCell.swift */; };
 		CAF2F86A29786726006AA3DE /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2F86929786726006AA3DE /* CustomTabBarController.swift */; };
 		CAF2F86F2978679E006AA3DE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2F86E2978679E006AA3DE /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +64,8 @@
 		CA57A4EE29786471005BE531 /* SportUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA57A4F229786471005BE531 /* SportUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportUITests.swift; sourceTree = "<group>"; };
 		CA57A4F429786471005BE531 /* SportUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		CAF2EBC1297C26E7009DD50C /* SportTypesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportTypesCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAF2F86929786726006AA3DE /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		CAF2F86E2978679E006AA3DE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		F91F03E6960BCDC6C2A35517 /* Pods-Sport.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sport.debug.xcconfig"; path = "Target Support Files/Pods-Sport/Pods-Sport.debug.xcconfig"; sourceTree = "<group>"; };
@@ -162,10 +166,19 @@
 			path = SportUITests;
 			sourceTree = "<group>";
 		};
+		CAF2EBC0297C26D3009DD50C /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CAF2EBC1297C26E7009DD50C /* SportTypesCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		CAF2F86C29786740006AA3DE /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				CAF2F86929786726006AA3DE /* CustomTabBarController.swift */,
+				CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */,
 				CA463914297AB739002488EA /* SportsDataManager.swift */,
 			);
 			path = Main;
@@ -175,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				CA57A4D529786470005BE531 /* GeneralViewController.swift */,
+				CAF2EBC0297C26D3009DD50C /* Cell */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -436,11 +450,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA57A4D629786470005BE531 /* GeneralViewController.swift in Sources */,
+				CAF2EBBF297C267B009DD50C /* BaseCollectionViewCell.swift in Sources */,
 				CA57A4D229786470005BE531 /* AppDelegate.swift in Sources */,
 				CAF2F86A29786726006AA3DE /* CustomTabBarController.swift in Sources */,
 				CAF2F86F2978679E006AA3DE /* SettingsViewController.swift in Sources */,
 				CA463915297AB739002488EA /* SportsDataManager.swift in Sources */,
 				CA57A4D429786470005BE531 /* SceneDelegate.swift in Sources */,
+				CAF2EBC2297C26E7009DD50C /* SportTypesCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
