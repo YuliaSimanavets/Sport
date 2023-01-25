@@ -32,23 +32,8 @@ class GeneralViewController: UIViewController,
         return collectionView
     }()
     
-    private var sportTypesArray: [SportsTypes] = [
-        .ncaaFootball(SportsTypesViewModel(nameImage: UIImage(named: "ncaaFootball"), typeText: "NCAA Football")),
-        .nfl(SportsTypesViewModel(nameImage: UIImage(named: "NFL"), typeText: "NFL")),
-        .mlb(SportsTypesViewModel(nameImage: UIImage(named: "MLB"), typeText: "MLB")),
-        .nba(SportsTypesViewModel(nameImage: UIImage(named: "NBA"), typeText: "NBA")),
-        .ncaaMensBasket(SportsTypesViewModel(nameImage: UIImage(named: "NCAAMansBask"), typeText: "NCAA Men's Basketball")),
-        .nhl(SportsTypesViewModel(nameImage: UIImage(named: "NHL"), typeText: "NHL")),
-        .ufsMma(SportsTypesViewModel(nameImage: UIImage(named: "UFC"), typeText: "UFC/MMA")),
-        .wnba(SportsTypesViewModel(nameImage: UIImage(named: "WNBA"), typeText: "WNBA")),
-        .mls(SportsTypesViewModel(nameImage: UIImage(named: "MLS"), typeText: "MLS")),
-        .epl(SportsTypesViewModel(nameImage: UIImage(named: "EPL"), typeText: "EPL")),
-        .fra1(SportsTypesViewModel(nameImage: UIImage(named: ""), typeText: "FRA1")),
-        .ger1(SportsTypesViewModel(nameImage: UIImage(named: ""), typeText: "GER1")),
-        .esp1(SportsTypesViewModel(nameImage: UIImage(named: ""), typeText: "ESP1")),
-        .ita1(SportsTypesViewModel(nameImage: UIImage(named: ""), typeText: "ITA1")),
-        .uefaChamp(SportsTypesViewModel(nameImage: UIImage(named: "UEFA"), typeText: "UEFACHAMP")),
-        .fifa(SportsTypesViewModel(nameImage: UIImage(named: "FIFA"), typeText: "FIFA"))
+    private var sportTypesArray: [Sport] = [
+        .ncaaFootball, .nfl, .mlb, .nba, .ncaaMensBasket, .nhl, .ufsMma, .wnba, .mls, .epl, .fra1, .ger1, .esp1, .ita1, .uefaChamp, .fifa
     ]
 
     override func viewDidLoad() {
@@ -83,96 +68,19 @@ class GeneralViewController: UIViewController,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTypesCollectionViewCell.identifier, for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTypesCollectionViewCell.identifier,
+                                                            for: indexPath)as? SportsTypesCollectionViewCell else { return UICollectionViewCell() }
         
         let item = sportTypesArray[indexPath.item]
         
-        switch item {
-        case let .ncaaFootball(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .nfl(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .mlb(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .nba(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .ncaaMensBasket(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .nhl(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .ufsMma(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .wnba(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .mls(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .epl(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .fra1(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .ger1(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .esp1(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .ita1(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .uefaChamp(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        case let .fifa(model):
-            if let myCell = cell as? SportsTypesCollectionViewCell {
-                myCell.set(model)
-                return myCell
-            }
-        }
-        return UICollectionViewCell()
+        cell.set(.init(nameImage: item.image, typeText: item.rawValue))
+        return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         let frame = collectionView.frame
         let widthCell = frame.width - CGFloat(20)
         let heightCell = CGFloat(50)
