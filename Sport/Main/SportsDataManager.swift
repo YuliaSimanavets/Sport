@@ -17,8 +17,4 @@ class SportsDataManager {
             dataCollected(self?.typesOfSport)
         }
     }
-    
-    func getSportTypes() -> [String] {
-        return typesOfSport
-    }
 }

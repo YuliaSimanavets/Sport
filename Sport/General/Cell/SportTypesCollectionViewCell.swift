@@ -7,15 +7,15 @@
 
 import UIKit
 
-struct SportTypesViewModel {
+struct SportsTypesViewModel {
     let nameImage: UIImage?
     let typeText: String
 }
 
-class SportTypesCollectionViewCell: BaseCollectionViewCell {
+class SportsTypesCollectionViewCell: BaseCollectionViewCell {
     
     static var identifier: String {
-        return String(describing: SportTypesCollectionViewCell.self)
+        return String(describing: SportsTypesCollectionViewCell.self)
     }
     
     private let sportLabel: UILabel = {
@@ -56,7 +56,7 @@ class SportTypesCollectionViewCell: BaseCollectionViewCell {
         ])
     }
     
-    func set(_ data: SportTypesViewModel) {
+    func set(_ data: SportsTypesViewModel) {
         sportImageView.image = data.nameImage
         sportLabel.text = data.typeText
     }

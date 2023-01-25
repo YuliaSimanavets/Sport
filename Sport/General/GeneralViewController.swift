@@ -32,9 +32,24 @@ class GeneralViewController: UIViewController,
         return collectionView
     }()
     
-    private var sportItems = [String]()
-    
-    private let imagesTypesOfSport: [String] = ["NCAAFootball", "NFL", "MLB", "NBA", "NCAA", "NHL", "UFC", "WNBA", "MLS", "EPL", "UEFA", "FIFA"]
+    private var sportTypesArray: [SportsTypes] = [
+        .ncaaFootball(SportsTypesViewModel(nameImage: UIImage(named: "ncaaFootball"), typeText: "NCAA Football")),
+        .nfl(SportsTypesViewModel(nameImage: UIImage(named: "NFL"), typeText: "NFL")),
+        .mlb(SportsTypesViewModel(nameImage: UIImage(named: "MLB"), typeText: "MLB")),
+        .nba(SportsTypesViewModel(nameImage: UIImage(named: "NBA"), typeText: "NBA")),
+        .ncaaMensBasket(SportsTypesViewModel(nameImage: UIImage(named: "NCAAMansBask"), typeText: "NCAA Men's Basketball")),
+        .nhl(SportsTypesViewModel(nameImage: UIImage(named: "NHL"), typeText: "NHL")),
+        .ufsMma(SportsTypesViewModel(nameImage: UIImage(named: "UFC"), typeText: "UFC/MMA")),
+        .wnba(SportsTypesViewModel(nameImage: UIImage(named: "WNBA"), typeText: "WNBA")),
+        .mls(SportsTypesViewModel(nameImage: UIImage(named: "MLS"), typeText: "MLS")),
+        .epl(SportsTypesViewModel(nameImage: UIImage(named: "EPL"), typeText: "EPL")),
+        .fra1(SportsTypesViewModel(nameImage: UIImage(named: ""), typeText: "FRA1")),
+        .ger1(SportsTypesViewModel(nameImage: UIImage(named: ""), typeText: "GER1")),
+        .esp1(SportsTypesViewModel(nameImage: UIImage(named: ""), typeText: "ESP1")),
+        .ita1(SportsTypesViewModel(nameImage: UIImage(named: ""), typeText: "ITA1")),
+        .uefaChamp(SportsTypesViewModel(nameImage: UIImage(named: "UEFA"), typeText: "UEFACHAMP")),
+        .fifa(SportsTypesViewModel(nameImage: UIImage(named: "FIFA"), typeText: "FIFA"))
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,12 +61,10 @@ class GeneralViewController: UIViewController,
         typesCollectionView.delegate = self
         typesCollectionView.dataSource = self
         
-        typesCollectionView.register(SportTypesCollectionViewCell.self,
-                                     forCellWithReuseIdentifier: SportTypesCollectionViewCell.identifier)
-        
-        sportItems = sportsDataManager?.getSportTypes() ?? []
-        
-        activeIndicator()
+        typesCollectionView.register(SportsTypesCollectionViewCell.self,
+                                     forCellWithReuseIdentifier: SportsTypesCollectionViewCell.identifier)
+                
+        createActivityIndicator()
         
         NSLayoutConstraint.activate([
             generalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
@@ -65,16 +78,98 @@ class GeneralViewController: UIViewController,
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sportItems.count
+        return sportTypesArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTypesCollectionViewCell.identifier, for: indexPath)
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportTypesCollectionViewCell.identifier,
-                                                            for: indexPath) as? SportTypesCollectionViewCell else { return UICollectionViewCell() }
+        let item = sportTypesArray[indexPath.item]
         
-        cell.set(SportTypesViewModel(nameImage: UIImage(named: imagesTypesOfSport[indexPath.item]), typeText: sportItems[indexPath.item]))
-        return cell
+        switch item {
+        case let .ncaaFootball(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .nfl(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .mlb(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .nba(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .ncaaMensBasket(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .nhl(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .ufsMma(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .wnba(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .mls(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .epl(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .fra1(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .ger1(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .esp1(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .ita1(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .uefaChamp(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        case let .fifa(model):
+            if let myCell = cell as? SportsTypesCollectionViewCell {
+                myCell.set(model)
+                return myCell
+            }
+        }
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -88,7 +183,7 @@ class GeneralViewController: UIViewController,
         sportsDataManager = data
     }
 
-    func activeIndicator() {
+    func createActivityIndicator() {
 
         let activeIndicator = UIActivityIndicatorView(style: .large)
         activeIndicator.center = self.view.center
