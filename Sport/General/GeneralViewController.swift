@@ -31,10 +31,6 @@ class GeneralViewController: UIViewController,
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    
-    private var sportTypesArray: [Sport] = [
-        .ncaaFootball, .nfl, .mlb, .nba, .ncaaMensBasket, .nhl, .ufsMma, .wnba, .mls, .epl, .fra1, .ger1, .esp1, .ita1, .uefaChamp, .fifa
-    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +59,14 @@ class GeneralViewController: UIViewController,
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sportTypesArray.count
+        var sizeOfArray: Int?
+        
+        var dataCollected: ([Sport]?) -> () = { sportTypesArray in
+            sizeOfArray = sportTypesArray?.count
+        }
+        sportsDataManager?.loadData(dataCollected: dataCollected)
+        
+        return sizeOfArray ?? 16
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -71,9 +74,13 @@ class GeneralViewController: UIViewController,
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTypesCollectionViewCell.identifier,
                                                             for: indexPath)as? SportsTypesCollectionViewCell else { return UICollectionViewCell() }
         
-        let item = sportTypesArray[indexPath.item]
+        var dataCollected: ([Sport]?) -> () = { sportTypesArray in
+            guard let item = sportTypesArray?[indexPath.item] else { return }
+            cell.set(.init(nameImage: item.image, typeText: item.rawValue))
+        }
         
-        cell.set(.init(nameImage: item.image, typeText: item.rawValue))
+        sportsDataManager?.loadData(dataCollected: dataCollected)
+        
         return cell
     }
     
