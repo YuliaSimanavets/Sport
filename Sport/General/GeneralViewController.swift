@@ -14,6 +14,8 @@ class GeneralViewController: UIViewController,
 
     var sportsDataManager: SportsDataManager?
     
+    private let activityIndicator = UIActivityIndicatorView()
+    
     private let generalLabel: UILabel = {
         let label = UILabel()
         label.text = "Select sport"
@@ -32,6 +34,8 @@ class GeneralViewController: UIViewController,
         return collectionView
     }()
 
+    var sportTypesArray = [Sport]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,6 +51,12 @@ class GeneralViewController: UIViewController,
                 
         createActivityIndicator()
         
+        sportsDataManager?.loadData { [weak self] sportArray in
+            self?.sportTypesArray = sportArray ?? []
+            self?.activityIndicator.stopAnimating()
+            self?.typesCollectionView.reloadData()
+        }
+        
         NSLayoutConstraint.activate([
             generalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             generalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -59,28 +69,17 @@ class GeneralViewController: UIViewController,
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var sizeOfArray: Int?
-        
-        var dataCollected: ([Sport]?) -> () = { sportTypesArray in
-            sizeOfArray = sportTypesArray?.count
-        }
-        sportsDataManager?.loadData(dataCollected: dataCollected)
-        
-        return sizeOfArray ?? 16
+        return sportTypesArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTypesCollectionViewCell.identifier,
                                                             for: indexPath)as? SportsTypesCollectionViewCell else { return UICollectionViewCell() }
-        
-        var dataCollected: ([Sport]?) -> () = { sportTypesArray in
-            guard let item = sportTypesArray?[indexPath.item] else { return }
-            cell.set(.init(nameImage: item.image, typeText: item.rawValue))
-        }
-        
-        sportsDataManager?.loadData(dataCollected: dataCollected)
-        
+
+        let item = sportTypesArray[indexPath.item]
+        cell.set(.init(nameImage: item.image, typeText: item.rawValue))
+
         return cell
     }
     
@@ -100,11 +99,9 @@ class GeneralViewController: UIViewController,
 
     func createActivityIndicator() {
 
-        let activeIndicator = UIActivityIndicatorView(style: .large)
-        activeIndicator.center = self.view.center
-        
-        view.addSubview(activeIndicator)
-        activeIndicator.startAnimating()
+        activityIndicator.center = self.view.center
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
     }
 }
 
