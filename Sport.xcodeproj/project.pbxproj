@@ -23,7 +23,7 @@
 		CAF2EBBF297C267B009DD50C /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */; };
 		CAF2EBC2297C26E7009DD50C /* SportTypesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2EBC1297C26E7009DD50C /* SportTypesCollectionViewCell.swift */; };
 		CAF2F86A29786726006AA3DE /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2F86929786726006AA3DE /* CustomTabBarController.swift */; };
-		CAF2F86F2978679E006AA3DE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2F86E2978679E006AA3DE /* SettingsViewController.swift */; };
+		CAF2F86F2978679E006AA3DE /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2F86E2978679E006AA3DE /* FavouritesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +69,7 @@
 		CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAF2EBC1297C26E7009DD50C /* SportTypesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportTypesCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAF2F86929786726006AA3DE /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
-		CAF2F86E2978679E006AA3DE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		CAF2F86E2978679E006AA3DE /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
 		F91F03E6960BCDC6C2A35517 /* Pods-Sport.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sport.debug.xcconfig"; path = "Target Support Files/Pods-Sport/Pods-Sport.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,7 +151,7 @@
 				CA57A4D329786470005BE531 /* SceneDelegate.swift */,
 				CAF2F86C29786740006AA3DE /* Main */,
 				CAF2F86D2978674C006AA3DE /* General */,
-				CAF2F870297867A2006AA3DE /* Settings */,
+				CAF2F870297867A2006AA3DE /* Favourites */,
 				CA57A4DA29786471005BE531 /* Assets.xcassets */,
 				CA57A4DC29786471005BE531 /* LaunchScreen.storyboard */,
 				CA57A4DF29786471005BE531 /* Info.plist */,
@@ -187,8 +187,8 @@
 		CAF2F86C29786740006AA3DE /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				CAF2F86929786726006AA3DE /* CustomTabBarController.swift */,
 				CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */,
+				CAF2F86929786726006AA3DE /* CustomTabBarController.swift */,
 				CA463914297AB739002488EA /* SportsDataManager.swift */,
 			);
 			path = Main;
@@ -204,12 +204,12 @@
 			path = General;
 			sourceTree = "<group>";
 		};
-		CAF2F870297867A2006AA3DE /* Settings */ = {
+		CAF2F870297867A2006AA3DE /* Favourites */ = {
 			isa = PBXGroup;
 			children = (
-				CAF2F86E2978679E006AA3DE /* SettingsViewController.swift */,
+				CAF2F86E2978679E006AA3DE /* FavouritesViewController.swift */,
 			);
-			path = Settings;
+			path = Favourites;
 			sourceTree = "<group>";
 		};
 		DB3321D1AC1E49C72C077AEA /* Frameworks */ = {
@@ -465,7 +465,7 @@
 				CA57A4D229786470005BE531 /* AppDelegate.swift in Sources */,
 				CA4746462981535A004FDD48 /* Sport.swift in Sources */,
 				CAF2F86A29786726006AA3DE /* CustomTabBarController.swift in Sources */,
-				CAF2F86F2978679E006AA3DE /* SettingsViewController.swift in Sources */,
+				CAF2F86F2978679E006AA3DE /* FavouritesViewController.swift in Sources */,
 				CA463915297AB739002488EA /* SportsDataManager.swift in Sources */,
 				CA57A4D429786470005BE531 /* SceneDelegate.swift in Sources */,
 				CAF2EBC2297C26E7009DD50C /* SportTypesCollectionViewCell.swift in Sources */,

@@ -14,14 +14,14 @@ class CustomTabBarController: UITabBarController {
         
         let sportsDataManager = SportsDataManager()
         let generalViewController = GeneralViewController()
-        let settingsViewController = SettingsViewController()
+        let favouritesViewController = FavouritesViewController()
         
         generalViewController.set(sportsDataManager)
         
-        self.setViewControllers([generalViewController, settingsViewController], animated: false)
+        self.setViewControllers([generalViewController, favouritesViewController], animated: false)
         guard let items = tabBar.items else { return }
         
-        let images = ["tablecells.badge.ellipsis", "gearshape"]
+        let images = ["tablecells.badge.ellipsis", "star.bubble"]
         for i in 0..<images.count {
             items[i].image = UIImage(systemName: images[i])
         }
