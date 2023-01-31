@@ -78,7 +78,7 @@ class GeneralViewController: UIViewController,
                                                             for: indexPath)as? SportsTypesCollectionViewCell else { return UICollectionViewCell() }
 
         let item = sportTypesArray[indexPath.item]
-        cell.set(.init(nameImage: item.image, typeText: item.rawValue))
+        cell.set(.init(nameImage: item.image, typeText: item.title))
 
         return cell
     }

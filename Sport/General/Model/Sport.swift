@@ -7,24 +7,24 @@
 
 import UIKit
 
-enum Sport: String {
+enum Sport: Codable {
     
-    case ncaaFootball = "NCAA Football"
-    case nfl = "NFL"
-    case mlb = "MLB"
-    case nba = "NBA"
-    case ncaaMensBasket = "NCAA Men's Basketball"
-    case nhl = "NHL"
-    case ufsMma = "UFC/MMA"
-    case wnba = "WNBA"
-    case mls = "MLS"
-    case epl = "EPL"
-    case fra1 = "FRA1"
-    case ger1 = "GER1"
-    case esp1 = "ESP1"
-    case ita1 = "ITA1"
-    case uefaChamp = "UEFACHAMP"
-    case fifa = "FIFA"
+    case ncaaFootball
+    case nfl
+    case mlb
+    case nba
+    case ncaaMensBasket
+    case nhl
+    case ufsMma
+    case wnba
+    case mls
+    case epl
+    case fra1
+    case ger1
+    case esp1
+    case ita1
+    case uefaChamp
+    case fifa
     
     var image: UIImage? {
         switch self {
@@ -63,7 +63,59 @@ enum Sport: String {
         }
     }
 
-//    var title: String {
-//
-//    }
+    var title: String {
+        switch self {
+        case .ncaaFootball:
+            return "ncaaFootball"
+        case .nfl:
+            return "NFL"
+        case .mlb:
+            return "MLB"
+        case .nba:
+            return "NBA"
+        case .ncaaMensBasket:
+            return "NCAAMansBask"
+        case .nhl:
+            return "NHL"
+        case .ufsMma:
+            return "UFC"
+        case .wnba:
+            return "WNBA"
+        case .mls:
+            return "MLS"
+        case .epl:
+            return "EPL"
+        case .fra1:
+            return "FRA1"
+        case .ger1:
+            return "GER1"
+        case .esp1:
+            return "ESP1"
+        case .ita1:
+            return "ITA1"
+        case .uefaChamp:
+            return "UEFA"
+        case .fifa:
+            return "FIFA"
+        }
+    }
 }
+
+
+
+//case ncaaFootball = "NCAA Football"
+//case nfl = "NFL"
+//case mlb = "MLB"
+//case nba = "NBA"
+//case ncaaMensBasket = "NCAA Men's Basketball"
+//case nhl = "NHL"
+//case ufsMma = "UFC/MMA"
+//case wnba = "WNBA"
+//case mls = "MLS"
+//case epl = "EPL"
+//case fra1 = "FRA1"
+//case ger1 = "GER1"
+//case esp1 = "ESP1"
+//case ita1 = "ITA1"
+//case uefaChamp = "UEFACHAMP"
+//case fifa = "FIFA"
