@@ -20,6 +20,7 @@
 		CA57A4E929786471005BE531 /* SportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA57A4E829786471005BE531 /* SportTests.swift */; };
 		CA57A4F329786471005BE531 /* SportUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA57A4F229786471005BE531 /* SportUITests.swift */; };
 		CA57A4F529786471005BE531 /* SportUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA57A4F429786471005BE531 /* SportUITestsLaunchTests.swift */; };
+		CA5AC9FF298ACB3C009F073D /* SportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5AC9FE298ACB3C009F073D /* SportData.swift */; };
 		CAF2EBBF297C267B009DD50C /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */; };
 		CAF2EBC2297C26E7009DD50C /* SportTypesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2EBC1297C26E7009DD50C /* SportTypesCollectionViewCell.swift */; };
 		CAF2F86A29786726006AA3DE /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2F86929786726006AA3DE /* CustomTabBarController.swift */; };
@@ -66,6 +67,7 @@
 		CA57A4EE29786471005BE531 /* SportUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA57A4F229786471005BE531 /* SportUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportUITests.swift; sourceTree = "<group>"; };
 		CA57A4F429786471005BE531 /* SportUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CA5AC9FE298ACB3C009F073D /* SportData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportData.swift; sourceTree = "<group>"; };
 		CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAF2EBC1297C26E7009DD50C /* SportTypesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportTypesCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAF2F86929786726006AA3DE /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */,
 				CAF2F86929786726006AA3DE /* CustomTabBarController.swift */,
 				CA463914297AB739002488EA /* SportsDataManager.swift */,
+				CA5AC9FE298ACB3C009F073D /* SportData.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 				CA4746462981535A004FDD48 /* Sport.swift in Sources */,
 				CAF2F86A29786726006AA3DE /* CustomTabBarController.swift in Sources */,
 				CAF2F86F2978679E006AA3DE /* FavouritesViewController.swift in Sources */,
+				CA5AC9FF298ACB3C009F073D /* SportData.swift in Sources */,
 				CA463915297AB739002488EA /* SportsDataManager.swift in Sources */,
 				CA57A4D429786470005BE531 /* SceneDelegate.swift in Sources */,
 				CAF2EBC2297C26E7009DD50C /* SportTypesCollectionViewCell.swift in Sources */,

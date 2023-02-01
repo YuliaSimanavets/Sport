@@ -34,7 +34,7 @@ class GeneralViewController: UIViewController,
         return collectionView
     }()
 
-    var sportTypesArray = [MySportModel]()
+    var sportTypesArray = [SportModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +52,7 @@ class GeneralViewController: UIViewController,
         createActivityIndicator()
         
         sportsDataManager?.loadData { [weak self] sportArray in
-            self?.sportTypesArray = sportArray ?? []
+            self?.sportTypesArray = sportArray
             self?.activityIndicator.stopAnimating()
             self?.typesCollectionView.reloadData()
         }
@@ -78,7 +78,8 @@ class GeneralViewController: UIViewController,
                                                             for: indexPath)as? SportsTypesCollectionViewCell else { return UICollectionViewCell() }
 
         let item = sportTypesArray[indexPath.item]
-        cell.set(.init(nameImage: item.sportImage.image, typeText: item.sportName))
+        cell.set(SportsTypesViewModel(nameImage: UIImage(systemName: "apple.logo"), typeText: item.sportName))
+//        cell.set(.init(nameImage: item.sportImage.image, typeText: item.sportName))
 
         return cell
     }
