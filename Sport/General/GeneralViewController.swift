@@ -34,7 +34,7 @@ class GeneralViewController: UIViewController,
         return collectionView
     }()
 
-    var sportTypesArray = [Sport]()
+    var sportTypesArray = [MySportModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +78,7 @@ class GeneralViewController: UIViewController,
                                                             for: indexPath)as? SportsTypesCollectionViewCell else { return UICollectionViewCell() }
 
         let item = sportTypesArray[indexPath.item]
-        cell.set(.init(nameImage: item.image, typeText: item.title))
+        cell.set(.init(nameImage: item.sportImage.image, typeText: item.sportName))
 
         return cell
     }

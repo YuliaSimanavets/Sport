@@ -9,12 +9,9 @@ import UIKit
 
 class SportsDataManager {
     
-    private var typesOfSport = [Sport]()
+    private var typesOfSport = [MySportModel]()
     
-//    [Sport] = [.ncaaFootball, .nfl, .mlb, .nba, .ncaaMensBasket, .nhl, .ufsMma, .wnba, .mls, .epl, .fra1, .ger1, .esp1, .ita1, .uefaChamp, .fifa]
-    
-    
-    func loadData(dataCollected: @escaping ([Sport]?) -> ()) {
+    func loadData(dataCollected: @escaping ([MySportModel]?) -> ()) {
 
         let url = "https://api.apilayer.com/therundown/sports"
         var request = URLRequest(url: URL(string: url)!, timeoutInterval: Double.infinity)
@@ -29,10 +26,8 @@ class SportsDataManager {
                       response.statusCode == 200,
                       let responseData = data {
                 
-                let sportData = try? JSONDecoder().decode([Sport].self, from: responseData)
-                for i in sportData ?? [] {
-                    self?.typesOfSport.append(i)
-                }
+                let sportData = try? JSONDecoder().decode([MySportModel].self, from: responseData)
+               
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
                     dataCollected(self?.typesOfSport)
@@ -44,4 +39,12 @@ class SportsDataManager {
     }
 }
 
+struct MySportModel: Codable {
+    var sportId: Int
+    var sportName: String
+    var sportImage: Sport
+}
 
+
+
+//    [Sport] = [.ncaaFootball, .nfl, .mlb, .nba, .ncaaMensBasket, .nhl, .ufsMma, .wnba, .mls, .epl, .fra1, .ger1, .esp1, .ita1, .uefaChamp, .fifa]
