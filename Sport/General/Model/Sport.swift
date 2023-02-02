@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum Sport: Codable {
+enum Sport: Codable, CaseIterable {
     
     case ncaaFootball
     case nfl
@@ -49,13 +49,13 @@ enum Sport: Codable {
         case .epl:
             return UIImage(named: "EPL")
         case .fra1:
-            return UIImage(named: "")
+            return UIImage(named: "FRA1")
         case .ger1:
-            return UIImage(named: "")
+            return UIImage(named: "GER1")
         case .esp1:
-            return UIImage(named: "")
+            return UIImage(named: "ESP1")
         case .ita1:
-            return UIImage(named: "")
+            return UIImage(named: "ITA1")
         case .uefaChamp:
             return UIImage(named: "UEFA")
         case .fifa:
@@ -66,7 +66,7 @@ enum Sport: Codable {
     var title: String {
         switch self {
         case .ncaaFootball:
-            return "ncaaFootball"
+            return "NCAA Football"
         case .nfl:
             return "NFL"
         case .mlb:
@@ -74,11 +74,11 @@ enum Sport: Codable {
         case .nba:
             return "NBA"
         case .ncaaMensBasket:
-            return "NCAAMansBask"
+            return "NCAA Man's Basketball"
         case .nhl:
             return "NHL"
         case .ufsMma:
-            return "UFC"
+            return "UFC/MMA"
         case .wnba:
             return "WNBA"
         case .mls:
@@ -94,7 +94,7 @@ enum Sport: Codable {
         case .ita1:
             return "ITA1"
         case .uefaChamp:
-            return "UEFA"
+            return "UEFACHAMP"
         case .fifa:
             return "FIFA"
         }

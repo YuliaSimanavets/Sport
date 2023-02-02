@@ -36,6 +36,9 @@ class GeneralViewController: UIViewController,
 
     var sportTypesArray = [SportModel]()
     
+//    var sportTitleWithImage = [SportsTypesViewModel]()
+//    var images = [Sport]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -77,9 +80,9 @@ class GeneralViewController: UIViewController,
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTypesCollectionViewCell.identifier,
                                                             for: indexPath)as? SportsTypesCollectionViewCell else { return UICollectionViewCell() }
 
-        let item = sportTypesArray[indexPath.item]
-        cell.set(SportsTypesViewModel(nameImage: UIImage(systemName: "apple.logo"), typeText: item.sportName))
-//        cell.set(.init(nameImage: item.sportImage.image, typeText: item.sportName))
+        let item = sportTypesArray[indexPath.item].sportName
+       
+        cell.set(SportsTypesViewModel(nameImage: UIImage(systemName: "apple.logo"), typeText: item))
 
         return cell
     }

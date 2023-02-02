@@ -26,10 +26,8 @@ class SportsDataManager {
 
                 let sportData = try? JSONDecoder().decode(SportData.self, from: responseData)
 
-
                 DispatchQueue.main.async {
                     dataCollected(sportData?.sports ?? [])
-                    print(sportData?.sports ?? [])
                 }
             }
         }
