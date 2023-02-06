@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import UIKit
 
-struct SportData: Codable {
+struct SportData: Decodable {
     let sports: [SportModel]
 }
 
-struct SportModel: Codable {
+struct SportModel: Decodable {
     let sportID: Int
     let sportName: String
 
@@ -19,4 +20,10 @@ struct SportModel: Codable {
         case sportID = "sport_id"
         case sportName = "sport_name"
     }
+}
+
+struct GeneralSportModel {
+    let sportID: Int
+    let sportName: String
+    let sportImage: UIImage
 }

@@ -34,8 +34,8 @@ class GeneralViewController: UIViewController,
         return collectionView
     }()
 
-    var sportTypesArray = [SportModel]()
-    var images = Sport.allCases
+    private var sportTypesArray = [SportModel]()
+    private var generalArray = [GeneralSportModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +55,7 @@ class GeneralViewController: UIViewController,
             self?.sportTypesArray = sportArray
             self?.activityIndicator.stopAnimating()
             self?.typesCollectionView.reloadData()
+            self?.generalArray = self?.createGeneralModel(from: self?.sportTypesArray ?? []) ?? []
         }
         
         NSLayoutConstraint.activate([
@@ -78,10 +79,10 @@ class GeneralViewController: UIViewController,
                                                             for: indexPath)as? SportsTypesCollectionViewCell
                                                             else { return UICollectionViewCell() }
 
-        let sportName = sportTypesArray[indexPath.item].sportName
-//        var image = images.filter({ $0.title == sportName }).first?.image
-   
-//        cell.set(SportsTypesViewModel(nameImage: image, typeText: sportName))
+        let sportName = generalArray[indexPath.item].sportName
+        let sportImage = generalArray[indexPath.item].sportImage
+
+        cell.set(SportsTypesViewModel(nameImage: sportImage, typeText: sportName))
 
         return cell
     }
@@ -100,11 +101,27 @@ class GeneralViewController: UIViewController,
         sportsDataManager = data
     }
 
-    func createActivityIndicator() {
+    private func createActivityIndicator() {
 
         activityIndicator.center = self.view.center
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
+    }
+    
+    private func createGeneralModel(from data: [SportModel]) -> [GeneralSportModel] {
+        
+        var generalSportModel = [GeneralSportModel]()
+        let sportCases = Sport.allCases
+        
+        for i in 0..<data.count {
+            if sportCases[i].rawValue == data[i].sportID {
+
+                generalSportModel.append(GeneralSportModel(sportID: sportCases[i].rawValue,
+                                                           sportName: data[i].sportName,
+                                                           sportImage: (sportCases[i].image ?? UIImage(systemName: ""))!))
+            }
+        }
+        return generalSportModel
     }
 }
 

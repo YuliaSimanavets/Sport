@@ -7,24 +7,24 @@
 
 import UIKit
 
-enum Sport: CaseIterable {
-    
-    case ncaaFootball
-    case nfl
-    case mlb
-    case nba
-    case ncaaMensBasket
-    case fra1
-    case ger1
-    case esp1
-    case ita1
-    case uefaChamp
-    case fifa
-    case nhl
-    case ufsMma
-    case wnba
-    case mls
-    case epl
+enum Sport: Int, CaseIterable {
+
+    case ncaaFootball = 1
+    case nfl = 2
+    case mlb = 3
+    case nba = 4
+    case ncaaMensBasket = 5
+    case fra1 = 6
+    case ger1 = 7
+    case esp1 = 8
+    case ita1 = 10
+    case uefaChamp = 11
+    case fifa = 12
+    case nhl = 13
+    case ufsMma = 14
+    case wnba = 15
+    case mls = 16
+    case epl = 18
     
     var image: UIImage? {
         switch self {
