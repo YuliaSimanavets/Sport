@@ -28,21 +28,18 @@ class GeneralViewController: UIViewController,
     private let typesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemTeal
+        collectionView.backgroundColor = .clear
         layout.scrollDirection = .vertical
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
 
     var sportTypesArray = [SportModel]()
-    
-//    var sportTitleWithImage = [SportsTypesViewModel]()
-//    var images = [Sport]()
+    var images = Sport.allCases
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemTeal
         view.addSubview(generalLabel)
         view.addSubview(typesCollectionView)
         
@@ -78,11 +75,13 @@ class GeneralViewController: UIViewController,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTypesCollectionViewCell.identifier,
-                                                            for: indexPath)as? SportsTypesCollectionViewCell else { return UICollectionViewCell() }
+                                                            for: indexPath)as? SportsTypesCollectionViewCell
+                                                            else { return UICollectionViewCell() }
 
-        let item = sportTypesArray[indexPath.item].sportName
-       
-        cell.set(SportsTypesViewModel(nameImage: UIImage(systemName: "apple.logo"), typeText: item))
+        let sportName = sportTypesArray[indexPath.item].sportName
+//        var image = images.filter({ $0.title == sportName }).first?.image
+   
+//        cell.set(SportsTypesViewModel(nameImage: image, typeText: sportName))
 
         return cell
     }

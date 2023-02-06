@@ -36,3 +36,17 @@ class SportsDataManager {
     }
 }
 
+func createNewModel() -> [GeneralSportModel] {
+    
+    var generalSportModel = [GeneralSportModel]()
+    
+    
+    
+    return generalSportModel
+}
+
+struct GeneralSportModel {
+    let sportID: Int
+    let sportName: String
+    let sportImage: UIImage
+}
