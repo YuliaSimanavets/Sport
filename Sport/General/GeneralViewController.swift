@@ -11,7 +11,7 @@ class GeneralViewController: UIViewController,
                              UICollectionViewDelegate,
                              UICollectionViewDataSource,
                              UICollectionViewDelegateFlowLayout {
-
+    
     var sportsDataManager: SportsDataManager?
     
     private let activityIndicator = UIActivityIndicatorView()
@@ -33,13 +33,13 @@ class GeneralViewController: UIViewController,
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-
+    
     private var sportTypesArray = [SportModel]()
     private var generalArray = [GeneralSportModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.addSubview(generalLabel)
         view.addSubview(typesCollectionView)
         
@@ -48,14 +48,17 @@ class GeneralViewController: UIViewController,
         
         typesCollectionView.register(SportsTypesCollectionViewCell.self,
                                      forCellWithReuseIdentifier: SportsTypesCollectionViewCell.identifier)
-                
+        
         createActivityIndicator()
         
         sportsDataManager?.loadData { [weak self] sportArray in
             self?.sportTypesArray = sportArray
             self?.activityIndicator.stopAnimating()
             self?.typesCollectionView.reloadData()
+            
+            print("sportTypesArray: \(self?.sportTypesArray ?? [])")
             self?.generalArray = self?.createGeneralModel(from: self?.sportTypesArray ?? []) ?? []
+            print("generalArray: \(self?.generalArray ?? [])")
         }
         
         NSLayoutConstraint.activate([
@@ -68,22 +71,22 @@ class GeneralViewController: UIViewController,
             typesCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sportTypesArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTypesCollectionViewCell.identifier,
                                                             for: indexPath)as? SportsTypesCollectionViewCell
-                                                            else { return UICollectionViewCell() }
-
+        else { return UICollectionViewCell() }
+        
         let sportName = generalArray[indexPath.item].sportName
         let sportImage = generalArray[indexPath.item].sportImage
-
+        
         cell.set(SportsTypesViewModel(nameImage: sportImage, typeText: sportName))
-
+        
         return cell
     }
     
@@ -111,14 +114,12 @@ class GeneralViewController: UIViewController,
     private func createGeneralModel(from data: [SportModel]) -> [GeneralSportModel] {
         
         var generalSportModel = [GeneralSportModel]()
-        let sportCases = Sport.allCases
         
         for i in 0..<data.count {
-            if sportCases[i].rawValue == data[i].sportID {
-
-                generalSportModel.append(GeneralSportModel(sportID: sportCases[i].rawValue,
+            if let sportId = Sport(rawValue: data[i].sportID) {
+                generalSportModel.append(GeneralSportModel(sportID: data[i].sportID,
                                                            sportName: data[i].sportName,
-                                                           sportImage: (sportCases[i].image ?? UIImage(systemName: ""))!))
+                                                           sportImage: sportId.image ?? UIImage(systemName: "")!))
             }
         }
         return generalSportModel

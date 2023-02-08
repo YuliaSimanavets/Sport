@@ -9,22 +9,44 @@ import UIKit
 
 enum Sport: Int, CaseIterable {
 
-    case ncaaFootball = 1
-    case nfl = 2
-    case mlb = 3
-    case nba = 4
-    case ncaaMensBasket = 5
-    case fra1 = 6
-    case ger1 = 7
-    case esp1 = 8
-    case ita1 = 10
-    case uefaChamp = 11
-    case fifa = 12
-    case nhl = 13
-    case ufsMma = 14
-    case wnba = 15
-    case mls = 16
-    case epl = 18
+    case ncaaFootball
+    case nfl
+    case mlb
+    case nba
+    case ncaaMensBasket
+    case fra1
+    case ger1
+    case esp1
+    case ita1
+    case uefaChamp
+    case fifa
+    case nhl
+    case ufsMma
+    case wnba
+    case mls
+    case epl
+    
+    init?(rawValue: Int) {
+        switch rawValue {
+        case 1: self = .ncaaFootball
+        case 2: self = .nfl
+        case 3: self = .mlb
+        case 4: self = .nba
+        case 5: self = .ncaaMensBasket
+        case 6: self = .nhl
+        case 7: self = .ufsMma
+        case 8: self = .wnba
+        case 10: self = .mls
+        case 11: self = .epl
+        case 12: self = .fra1
+        case 13: self = .ger1
+        case 14: self = .esp1
+        case 15: self = .ita1
+        case 16: self = .uefaChamp
+        case 18: self = .fifa
+        default: return nil
+        }
+    }
     
     var image: UIImage? {
         switch self {
