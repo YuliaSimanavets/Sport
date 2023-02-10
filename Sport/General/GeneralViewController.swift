@@ -52,13 +52,20 @@ class GeneralViewController: UIViewController,
         createActivityIndicator()
         
         sportsDataManager?.loadData { [weak self] sportArray in
-            self?.sportTypesArray = sportArray
-            self?.activityIndicator.stopAnimating()
-            self?.typesCollectionView.reloadData()
+            guard let self else { return }
+            self.sportTypesArray = sportArray
+            self.activityIndicator.stopAnimating()
+            self.typesCollectionView.reloadData()
             
-            print("sportTypesArray: \(self?.sportTypesArray ?? [])")
-            self?.generalArray = self?.createGeneralModel(from: self?.sportTypesArray ?? []) ?? []
-            print("generalArray: \(self?.generalArray ?? [])")
+            print("sportTypesArray: \(self.sportTypesArray )")
+            self.generalArray = sportArray.map({ sport in
+                if let sportType = Sport(rawValue: sport.sportID) {
+                    return GeneralSportModel(sportID: sport.sportID, sportName: sport.sportName, sportType: sportType)
+                }
+                return nil
+            }).compactMap({ $0 })
+
+            print("generalArray: \(self.generalArray)")
         }
         
         NSLayoutConstraint.activate([
@@ -83,7 +90,7 @@ class GeneralViewController: UIViewController,
         else { return UICollectionViewCell() }
         
         let sportName = generalArray[indexPath.item].sportName
-        let sportImage = generalArray[indexPath.item].sportImage
+        let sportImage = generalArray[indexPath.item].image
         
         cell.set(SportsTypesViewModel(nameImage: sportImage, typeText: sportName))
         
@@ -109,20 +116,6 @@ class GeneralViewController: UIViewController,
         activityIndicator.center = self.view.center
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
-    }
-    
-    private func createGeneralModel(from data: [SportModel]) -> [GeneralSportModel] {
-        
-        var generalSportModel = [GeneralSportModel]()
-        
-        for i in 0..<data.count {
-            if let sportId = Sport(rawValue: data[i].sportID) {
-                generalSportModel.append(GeneralSportModel(sportID: data[i].sportID,
-                                                           sportName: data[i].sportName,
-                                                           sportImage: sportId.image ?? UIImage(systemName: "")!))
-            }
-        }
-        return generalSportModel
     }
 }
 
