@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "MLS.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "MLS.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

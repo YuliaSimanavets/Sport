@@ -16,6 +16,14 @@ class GeneralViewController: UIViewController,
     
     private let activityIndicator = UIActivityIndicatorView()
     
+    private let actionButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(.black, for: .normal)
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private let generalLabel: UILabel = {
         let label = UILabel()
         label.text = "Select sport"
@@ -43,6 +51,9 @@ class GeneralViewController: UIViewController,
         view.addSubview(generalLabel)
         view.addSubview(typesCollectionView)
         
+        view.addSubview(actionButton)
+        actionButton.addTarget(self, action: #selector(tappedAction), for: .touchUpInside)
+        
         typesCollectionView.delegate = self
         typesCollectionView.dataSource = self
         
@@ -52,16 +63,25 @@ class GeneralViewController: UIViewController,
         createActivityIndicator()
         
         sportsDataManager?.loadData { [weak self] sportArray in
-            self?.sportTypesArray = sportArray
-            self?.activityIndicator.stopAnimating()
-            self?.typesCollectionView.reloadData()
+            guard let self else { return }
+            self.sportTypesArray = sportArray
+            self.activityIndicator.stopAnimating()
+            self.typesCollectionView.reloadData()
             
-            print("sportTypesArray: \(self?.sportTypesArray ?? [])")
-            self?.generalArray = self?.createGeneralModel(from: self?.sportTypesArray ?? []) ?? []
-            print("generalArray: \(self?.generalArray ?? [])")
+            self.generalArray = sportArray.map({ sport in
+                if let sportType = Sport(rawValue: sport.sportID) {
+                    return GeneralSportModel(sportID: sport.sportID, sportName: sport.sportName, sportType: sportType)
+                }
+                return nil
+            }).compactMap({ $0 })
         }
         
         NSLayoutConstraint.activate([
+            actionButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            actionButton.heightAnchor.constraint(equalToConstant: 40),
+            actionButton.widthAnchor.constraint(equalToConstant: 40),
+            
             generalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             generalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
@@ -83,7 +103,7 @@ class GeneralViewController: UIViewController,
         else { return UICollectionViewCell() }
         
         let sportName = generalArray[indexPath.item].sportName
-        let sportImage = generalArray[indexPath.item].sportImage
+        let sportImage = generalArray[indexPath.item].image
         
         cell.set(SportsTypesViewModel(nameImage: sportImage, typeText: sportName))
         
@@ -111,18 +131,13 @@ class GeneralViewController: UIViewController,
         activityIndicator.startAnimating()
     }
     
-    private func createGeneralModel(from data: [SportModel]) -> [GeneralSportModel] {
-        
-        var generalSportModel = [GeneralSportModel]()
-        
-        for i in 0..<data.count {
-            if let sportId = Sport(rawValue: data[i].sportID) {
-                generalSportModel.append(GeneralSportModel(sportID: data[i].sportID,
-                                                           sportName: data[i].sportName,
-                                                           sportImage: sportId.image ?? UIImage(systemName: "")!))
-            }
-        }
-        return generalSportModel
+    @objc
+    func tappedAction() {
+        let viewController = SportDetailsViewController()
+        let navController = UINavigationController(rootViewController: viewController)
+//        navigationController?.pushViewController(viewController, animated: true)
+        navController.modalPresentationStyle = .fullScreen
+        present(navController, animated: true)
     }
 }
 

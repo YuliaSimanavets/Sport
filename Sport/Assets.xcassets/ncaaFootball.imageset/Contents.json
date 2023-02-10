@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "ncaaFootball.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "ncaaFootball.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
