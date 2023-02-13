@@ -11,7 +11,7 @@ class GeneralViewController: UIViewController,
                              UICollectionViewDelegate,
                              UICollectionViewDataSource,
                              UICollectionViewDelegateFlowLayout {
-
+    
     var sportsDataManager: SportsDataManager?
     
     private let activityIndicator = UIActivityIndicatorView()
@@ -28,18 +28,18 @@ class GeneralViewController: UIViewController,
     private let typesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemTeal
+        collectionView.backgroundColor = .clear
         layout.scrollDirection = .vertical
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-
-    var sportTypesArray = [Sport]()
+    
+    private var sportTypesArray = [SportModel]()
+    private var generalArray = [GeneralSportModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .systemTeal
+        
         view.addSubview(generalLabel)
         view.addSubview(typesCollectionView)
         
@@ -48,13 +48,24 @@ class GeneralViewController: UIViewController,
         
         typesCollectionView.register(SportsTypesCollectionViewCell.self,
                                      forCellWithReuseIdentifier: SportsTypesCollectionViewCell.identifier)
-                
+        
         createActivityIndicator()
         
         sportsDataManager?.loadData { [weak self] sportArray in
-            self?.sportTypesArray = sportArray ?? []
-            self?.activityIndicator.stopAnimating()
-            self?.typesCollectionView.reloadData()
+            guard let self else { return }
+            self.sportTypesArray = sportArray
+            self.activityIndicator.stopAnimating()
+            self.typesCollectionView.reloadData()
+            
+            print("sportTypesArray: \(self.sportTypesArray )")
+            self.generalArray = sportArray.map({ sport in
+                if let sportType = Sport(rawValue: sport.sportID) {
+                    return GeneralSportModel(sportID: sport.sportID, sportName: sport.sportName, sportType: sportType)
+                }
+                return nil
+            }).compactMap({ $0 })
+
+            print("generalArray: \(self.generalArray)")
         }
         
         NSLayoutConstraint.activate([
@@ -67,19 +78,22 @@ class GeneralViewController: UIViewController,
             typesCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sportTypesArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportsTypesCollectionViewCell.identifier,
-                                                            for: indexPath)as? SportsTypesCollectionViewCell else { return UICollectionViewCell() }
-
-        let item = sportTypesArray[indexPath.item]
-        cell.set(.init(nameImage: item.image, typeText: item.rawValue))
-
+                                                            for: indexPath)as? SportsTypesCollectionViewCell
+        else { return UICollectionViewCell() }
+        
+        let sportName = generalArray[indexPath.item].sportName
+        let sportImage = generalArray[indexPath.item].image
+        
+        cell.set(SportsTypesViewModel(nameImage: sportImage, typeText: sportName))
+        
         return cell
     }
     
@@ -97,7 +111,7 @@ class GeneralViewController: UIViewController,
         sportsDataManager = data
     }
 
-    func createActivityIndicator() {
+    private func createActivityIndicator() {
 
         activityIndicator.center = self.view.center
         view.addSubview(activityIndicator)
