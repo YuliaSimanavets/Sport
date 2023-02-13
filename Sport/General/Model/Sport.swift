@@ -24,5 +24,7 @@ enum Sport: Int {
     case esp1 = 14
     case ita1 = 15
     case uefaChamp = 16
+    case uefaEuro = 17
     case fifa = 18
+    case jpn1 = 19
 }
