@@ -15,9 +15,9 @@ import UIKit
 
 struct ScheduleDetailsViewModel {
     let dateEvent: String
-//    let eventLocation: String
+    let eventLocation: String
     let homeTeam: String
-//    let leagueName: String
+    let leagueName: String
 }
 
 class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
@@ -25,10 +25,18 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
     static var identifier: String {
         return String(describing: ScheduleDetailsCollectionViewCell.self)
     }
-    
+
     private let dateEventLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .light)
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let eventLocationLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16, weight: .light)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -36,7 +44,15 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
     
     private let homeTeamLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let leagueNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,21 +64,25 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 10
         
-        contentView.addSubview(dateEventLabel)
-        contentView.addSubview(homeTeamLabel)
+        let stackView = UIStackView(arrangedSubviews: [dateEventLabel, eventLocationLabel, homeTeamLabel, leagueNameLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = CGFloat(10)
+        
+        contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            dateEventLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            dateEventLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            
-            homeTeamLabel.topAnchor.constraint(equalTo: dateEventLabel.bottomAnchor, constant: 5),
-            homeTeamLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     
     func set(_ data: ScheduleDetailsViewModel) {
         
         dateEventLabel.text = data.dateEvent
+        eventLocationLabel.text = data.eventLocation
         homeTeamLabel.text = data.homeTeam
+        leagueNameLabel.text = data.leagueName
     }
 }

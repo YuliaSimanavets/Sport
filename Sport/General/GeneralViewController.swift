@@ -62,19 +62,19 @@ class GeneralViewController: UIViewController,
         
         createActivityIndicator()
         
-        sportsDataManager?.loadData { [weak self] sportArray in
-            guard let self else { return }
-            self.sportTypesArray = sportArray
-            self.activityIndicator.stopAnimating()
-            self.typesCollectionView.reloadData()
-            
-            self.generalArray = sportArray.map({ sport in
-                if let sportType = Sport(rawValue: sport.sportID) {
-                    return GeneralSportModel(sportID: sport.sportID, sportName: sport.sportName, sportType: sportType)
-                }
-                return nil
-            }).compactMap({ $0 })
-        }
+//        sportsDataManager?.loadData { [weak self] sportArray in
+//            guard let self else { return }
+//            self.sportTypesArray = sportArray
+//            self.activityIndicator.stopAnimating()
+//            self.typesCollectionView.reloadData()
+//
+//            self.generalArray = sportArray.map({ sport in
+//                if let sportType = Sport(rawValue: sport.sportID) {
+//                    return GeneralSportModel(sportID: sport.sportID, sportName: sport.sportName, sportType: sportType)
+//                }
+//                return nil
+//            }).compactMap({ $0 })
+//        }
         
         NSLayoutConstraint.activate([
             actionButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),

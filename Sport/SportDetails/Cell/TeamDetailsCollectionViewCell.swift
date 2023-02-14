@@ -65,36 +65,20 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
         contentView.layer.cornerRadius = 10
         
         let stackView = UIStackView(arrangedSubviews: [teamAbbreviationLabel, teamNameLabel, teamRecordLabel])
-
-        contentView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-//        contentView.addSubview(teamAbbreviationLabel)
-//        contentView.addSubview(teamNameLabel)
+        stackView.spacing = CGFloat(10)
+        
+        contentView.addSubview(stackView)
         contentView.addSubview(teamMascotLabel)
-//        contentView.addSubview(teamRecordLabel)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
-            teamMascotLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 10),
+            teamMascotLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
             teamMascotLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
-            
-//            teamAbbreviationLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-//            teamAbbreviationLabel.leadingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 20),
-////            teamAbbreviationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-//
-//            teamNameLabel.topAnchor.constraint(equalTo: teamAbbreviationLabel.bottomAnchor, constant: 10),
-//            teamNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-////            teamNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-//
-//            teamRecordLabel.topAnchor.constraint(equalTo: teamNameLabel.bottomAnchor, constant: 10),
-//            teamRecordLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-//
-//            teamMascotLabel.centerYAnchor.constraint(equalTo: teamAbbreviationLabel.centerYAnchor, constant: -10),
-//            teamMascotLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     

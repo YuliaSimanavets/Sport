@@ -17,6 +17,8 @@ class SportDetailsViewController:  UIViewController,
         case schedule(ScheduleDetailsViewModel)
     }
     
+    var sportsDataManager: SportsDataManager?
+    
     private let activityIndicator = UIActivityIndicatorView()
     
     private let teamsAndSchedulesSegmController: UISegmentedControl = {
@@ -47,13 +49,14 @@ class SportDetailsViewController:  UIViewController,
     ]
     
     private let schedules: [ScheduleDetailsViewModel] = [
-        .init(dateEvent: "2023-01-01T18:00:00Z", homeTeam: "Atlanta"),
-        .init(dateEvent: "2023-01-01T18:00:00Z", homeTeam: "New England"),
-        .init(dateEvent: "2023-01-01T18:00:00Z", homeTeam: "Houston"),
-        .init(dateEvent: "2023-01-01T18:00:00Z", homeTeam: "Tampa Bay")
+        .init(dateEvent: "2023-01-01T18:00:00Z", eventLocation: "-", homeTeam: "Atlanta", leagueName: "-"),
+        .init(dateEvent: "2023-01-01T18:00:00Z", eventLocation: "-", homeTeam: "New England", leagueName: "-"),
+        .init(dateEvent: "2023-01-01T18:00:00Z", eventLocation: "-", homeTeam: "Houston", leagueName: "-"),
+        .init(dateEvent: "2023-01-01T18:00:00Z", eventLocation: "-", homeTeam: "Tampa Bay", leagueName: "-")
     ]
     
-    private lazy var itemsToDisplay: [CellType] = teams.map { .team($0) }
+//    private lazy var itemsToDisplay: [CellType] = teams.map { .team($0) }
+    private lazy var itemsToDisplay: [CellType] = schedules.map { .schedule($0) }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +78,12 @@ class SportDetailsViewController:  UIViewController,
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(closeVCAction))
+        
+//        sportsDataManager?.getTeam(sportId: 1) { teamArray in
+//            guard let self else { return }
+//            self.itemsToDisplay = teamArray
+//            self.detailsCollectionView.reloadData()
+//        }
         
         NSLayoutConstraint.activate([
             teamsAndSchedulesSegmController.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -119,6 +128,10 @@ class SportDetailsViewController:  UIViewController,
         let widthCell = frame.width - CGFloat(20)
         let heightCell = CGFloat(120)
         return CGSize(width: widthCell, height: heightCell)
+    }
+        
+    func set(_ data: SportsDataManager) {
+        sportsDataManager = data
     }
     
     @objc

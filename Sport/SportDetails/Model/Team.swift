@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Empty: Codable {
-    let teams: [Team]
+struct TeamsData: Codable {
+    let teams: [TeamModel]
 }
 
-struct Team: Codable {
+struct TeamModel: Codable {
     let abbreviation: String
     let conference: Conference?
     let mascot: String

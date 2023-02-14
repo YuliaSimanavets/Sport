@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Schedules: Codable {
-    let schedules: [Schedule]
+struct SchedulesData: Codable {
+    let schedules: [ScheduleModel]
 }
 
-struct Schedule: Codable {
+struct ScheduleModel: Codable {
     let attendance: Int
     let awayScore: Int
     let awayTeam: String
