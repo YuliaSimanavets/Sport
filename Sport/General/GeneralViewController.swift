@@ -52,7 +52,7 @@ class GeneralViewController: UIViewController,
         view.addSubview(typesCollectionView)
         
         view.addSubview(actionButton)
-        actionButton.addTarget(self, action: #selector(tappedAction), for: .touchUpInside)
+        actionButton.addTarget(self, action: #selector(tapAction), for: .touchUpInside)
         
         typesCollectionView.delegate = self
         typesCollectionView.dataSource = self
@@ -132,10 +132,9 @@ class GeneralViewController: UIViewController,
     }
     
     @objc
-    func tappedAction() {
+    func tapAction() {
         let viewController = SportDetailsViewController()
         let navController = UINavigationController(rootViewController: viewController)
-//        navigationController?.pushViewController(viewController, animated: true)
         navController.modalPresentationStyle = .fullScreen
         present(navController, animated: true)
     }

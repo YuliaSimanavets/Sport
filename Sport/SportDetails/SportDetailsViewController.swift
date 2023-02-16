@@ -21,13 +21,13 @@ class SportDetailsViewController:  UIViewController,
     
     private let activityIndicator = UIActivityIndicatorView()
     
-    private let teamsAndSchedulesSegmController: UISegmentedControl = {
+    private let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Teams", "Schedule"])
         control.selectedSegmentIndex = 0
         control.backgroundColor = .clear
         control.selectedSegmentTintColor = .tabBarItemLight
         control.tintColor = .white
-        control.addTarget(SportDetailsViewController.self, action: #selector(handleSegmentControl), for: .valueChanged)
+        
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
@@ -41,7 +41,15 @@ class SportDetailsViewController:  UIViewController,
         return collectionView
     }()
     
-    private let teams: [TeamDetailsViewModel] = [
+//    private var teams = [TeamDetailsViewModel]()
+//    private var schedules = [ScheduleDetailsViewModel]()
+    
+    private var teams: [TeamDetailsViewModel] = [
+        .init(teamAbbreviation: "ACU", teamName: "Western Athletic Conference", teamMascot: "Wildcats", teamRecord: "7-4"),
+        .init(teamAbbreviation: "ADST", teamName: "Rocky Mountain", teamMascot: "Grizzlies", teamRecord: "2-9"),
+        .init(teamAbbreviation: "ADR", teamName: "Michigan", teamMascot: "Bulldogs", teamRecord: "6-4"),
+        .init(teamAbbreviation: "AIN", teamName: "Aina", teamMascot: "Hulaaina", teamRecord: "5-5-7"),
+        
         .init(teamAbbreviation: "ACU", teamName: "Western Athletic Conference", teamMascot: "Wildcats", teamRecord: "7-4"),
         .init(teamAbbreviation: "ADST", teamName: "Rocky Mountain", teamMascot: "Grizzlies", teamRecord: "2-9"),
         .init(teamAbbreviation: "ADR", teamName: "Michigan", teamMascot: "Bulldogs", teamRecord: "6-4"),
@@ -54,15 +62,26 @@ class SportDetailsViewController:  UIViewController,
         .init(dateEvent: "2023-01-01T18:00:00Z", eventLocation: "-", homeTeam: "Houston", leagueName: "-"),
         .init(dateEvent: "2023-01-01T18:00:00Z", eventLocation: "-", homeTeam: "Tampa Bay", leagueName: "-")
     ]
+
     
+    private lazy var itemsToDisplay: [CellType] = []
 //    private lazy var itemsToDisplay: [CellType] = teams.map { .team($0) }
-    private lazy var itemsToDisplay: [CellType] = schedules.map { .schedule($0) }
+//    private lazy var itemsToDisplay: [CellType] = schedules.map { .schedule($0) }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        itemsToDisplay = teams.map { .team($0) }
+        
+        detailsCollectionView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
      
         view.backgroundColor = .backViewControllers
-        view.addSubview(teamsAndSchedulesSegmController)
+        view.addSubview(segmentedControl)
         view.addSubview(detailsCollectionView)
         
         detailsCollectionView.delegate = self
@@ -79,18 +98,18 @@ class SportDetailsViewController:  UIViewController,
                                                             target: self,
                                                             action: #selector(closeVCAction))
         
-//        sportsDataManager?.getTeam(sportId: 1) { teamArray in
-//            guard let self else { return }
-//            self.itemsToDisplay = teamArray
-//            self.detailsCollectionView.reloadData()
-//        }
+        segmentedControl.addTarget(self,
+                                   action: #selector(handleSegmentControl),
+                                   for: .valueChanged)
+        
+        itemsToDisplay = teams.map { .team($0) }
         
         NSLayoutConstraint.activate([
-            teamsAndSchedulesSegmController.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            teamsAndSchedulesSegmController.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            teamsAndSchedulesSegmController.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            detailsCollectionView.topAnchor.constraint(equalTo: teamsAndSchedulesSegmController.bottomAnchor, constant: 20),
+            detailsCollectionView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 20),
             detailsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             detailsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             detailsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
@@ -136,15 +155,18 @@ class SportDetailsViewController:  UIViewController,
     
     @objc
     func handleSegmentControl() {
-        switch teamsAndSchedulesSegmController.selectedSegmentIndex {
+        
+        switch segmentedControl.selectedSegmentIndex {
         case 0:
             itemsToDisplay = teams.map({ .team($0) })
+            detailsCollectionView.reloadData()
         case 1:
             itemsToDisplay = schedules.map({ .schedule($0) })
+            detailsCollectionView.reloadData()
         default:
             itemsToDisplay = teams.map({ .team($0) })
+            detailsCollectionView.reloadData()
         }
-        detailsCollectionView.reloadData()
     }
     
     private func createActivityIndicator() {
