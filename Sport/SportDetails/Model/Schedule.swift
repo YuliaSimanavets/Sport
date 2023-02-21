@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct SchedulesData: Codable {
+struct SchedulesData: Decodable {
     let schedules: [ScheduleModel]
 }
 
-struct ScheduleModel: Codable {
+struct ScheduleModel: Decodable {
     let dateEvent: Date
     let eventLocation: String
     let homeTeam: String
@@ -26,7 +26,3 @@ struct ScheduleModel: Codable {
         case sportID = "sport_id"
     }
 }
-
-//enum LeagueName: String, Codable {
-//    case nationalFootballLeague = "National Football League"
-//}

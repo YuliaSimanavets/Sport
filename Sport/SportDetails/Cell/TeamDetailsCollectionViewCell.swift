@@ -14,10 +14,10 @@ import UIKit
  */
 
 struct TeamDetailsViewModel {
-    let teamAbbreviation: String
-    let teamName: String
-    let teamMascot: String
-    let teamRecord: String
+    let abbreviation: String
+    let name: String
+    let mascot: String
+    let record: String
 }
 
 class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
@@ -84,9 +84,9 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
     
     func set(_ data: TeamDetailsViewModel) {
         
-        teamAbbreviationLabel.text = data.teamAbbreviation
-        teamNameLabel.text = data.teamName
-        teamMascotLabel.text = data.teamMascot
-        teamRecordLabel.text = data.teamRecord
+        teamAbbreviationLabel.text = data.abbreviation
+        teamNameLabel.text = data.name
+        teamMascotLabel.text = data.mascot
+        teamRecordLabel.text = data.record
     }
 }

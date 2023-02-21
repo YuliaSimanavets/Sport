@@ -19,7 +19,7 @@ class SportsDataManager {
         return components
     }()
     
-    enum DetailOptions: String {
+    private enum DetailOptions: String {
         case teams = "teams"
         case schedule = "schedule"
     }
@@ -51,10 +51,10 @@ class SportsDataManager {
         task.resume()
     }
     
-    func getTeam(sportId: Int, completion: @escaping ([TeamModel]) -> ()) {
+    func getTeam(completion: @escaping ([TeamModel]) -> ()) {
 
         let teams = DetailOptions.teams.rawValue
-        components.path = "/therundown/sports/" + String(sportId) + "/" + teams
+        components.path = "/therundown/sports/" + String(1) + "/" + teams
         
         guard let url = components.url?.absoluteString else { return }
         
@@ -80,17 +80,19 @@ class SportsDataManager {
         task.resume()
     }
     
-    func getSchedule(sportId: Int, from date: Date, limit: Int, completion: @escaping ([ScheduleModel]) -> ()) {
-       
+    func getSchedule(sportId: Int, from date: Date = .now, limit: Int, completion: @escaping ([ScheduleModel]) -> ()) {
+
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyyy"
-        
+        dateFormatter.dateFormat = "yyyy-dd-MM"
+
         let schedule = DetailOptions.schedule.rawValue
+
         components.path = "/therundown/sports/" + String(sportId) + "/" + schedule
+
         let queryItemFrom = URLQueryItem(name: "from", value: dateFormatter.string(from: date))
         let queryItemLimit = URLQueryItem(name: "limit", value: String(limit))
         components.queryItems = [queryItemFrom, queryItemLimit]
-        
+
         guard let url = components.url?.absoluteString else { return }
         
         var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
@@ -105,7 +107,10 @@ class SportsDataManager {
                       response.statusCode == 200 ,
                       let responseData = data {
                 
-                let scheduleData = try? JSONDecoder().decode(SchedulesData.self, from: responseData)
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+                
+                let scheduleData = try? decoder.decode(SchedulesData.self, from: responseData)
                 
                 DispatchQueue.main.async {
                     completion(scheduleData?.schedules ?? [])

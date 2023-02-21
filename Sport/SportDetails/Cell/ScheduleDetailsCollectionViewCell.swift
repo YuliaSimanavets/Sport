@@ -14,7 +14,7 @@ import UIKit
  */
 
 struct ScheduleDetailsViewModel {
-    let dateEvent: String
+    let dateEvent: Date
     let eventLocation: String
     let homeTeam: String
     let leagueName: String
@@ -32,6 +32,12 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let dateFormatter: DateFormatter = {
+        let date = DateFormatter()
+        date.dateFormat = "MMM d, h:mm a"
+        return date
     }()
     
     private let eventLocationLabel: UILabel = {
@@ -68,6 +74,7 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = CGFloat(10)
+        stackView.alignment = .center
         
         contentView.addSubview(stackView)
         
@@ -80,7 +87,7 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
     
     func set(_ data: ScheduleDetailsViewModel) {
         
-        dateEventLabel.text = data.dateEvent
+        dateEventLabel.text = dateFormatter.string(from: data.dateEvent)
         eventLocationLabel.text = data.eventLocation
         homeTeamLabel.text = data.homeTeam
         leagueNameLabel.text = data.leagueName

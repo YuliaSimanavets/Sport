@@ -7,16 +7,17 @@
 
 import Foundation
 
-struct TeamsData: Codable {
+struct TeamsData: Decodable {
     let teams: [TeamModel]
 }
 
-struct TeamModel: Codable {
+struct TeamModel: Decodable {
     let abbreviation: String
     let mascot: String
     let name: String
     let record: String
     let teamID: Int
+    let conference: Conference?
 
     enum CodingKeys: String, CodingKey {
         case abbreviation
@@ -24,5 +25,14 @@ struct TeamModel: Codable {
         case name
         case record
         case teamID = "team_id"
+        case conference
+    }
+}
+
+struct Conference: Decodable {
+    let sportID: Int
+
+    enum CodingKeys: String, CodingKey {
+        case sportID = "sport_id"
     }
 }

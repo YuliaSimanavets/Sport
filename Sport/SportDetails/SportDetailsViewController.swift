@@ -11,12 +11,12 @@ class SportDetailsViewController:  UIViewController,
                                    UICollectionViewDelegate,
                                    UICollectionViewDataSource,
                                    UICollectionViewDelegateFlowLayout {
-
+    
     private enum CellType {
         case team(TeamDetailsViewModel)
         case schedule(ScheduleDetailsViewModel)
     }
-    
+
     var sportsDataManager: SportsDataManager?
     
     private let activityIndicator = UIActivityIndicatorView()
@@ -36,44 +36,20 @@ class SportDetailsViewController:  UIViewController,
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemYellow
+        collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-//    private var teams = [TeamDetailsViewModel]()
-//    private var schedules = [ScheduleDetailsViewModel]()
-    
-    private var teams: [TeamDetailsViewModel] = [
-        .init(teamAbbreviation: "ACU", teamName: "Western Athletic Conference", teamMascot: "Wildcats", teamRecord: "7-4"),
-        .init(teamAbbreviation: "ADST", teamName: "Rocky Mountain", teamMascot: "Grizzlies", teamRecord: "2-9"),
-        .init(teamAbbreviation: "ADR", teamName: "Michigan", teamMascot: "Bulldogs", teamRecord: "6-4"),
-        .init(teamAbbreviation: "AIN", teamName: "Aina", teamMascot: "Hulaaina", teamRecord: "5-5-7"),
+    private var teams = [TeamModel]()
+    private var schedules = [ScheduleModel]()
         
-        .init(teamAbbreviation: "ACU", teamName: "Western Athletic Conference", teamMascot: "Wildcats", teamRecord: "7-4"),
-        .init(teamAbbreviation: "ADST", teamName: "Rocky Mountain", teamMascot: "Grizzlies", teamRecord: "2-9"),
-        .init(teamAbbreviation: "ADR", teamName: "Michigan", teamMascot: "Bulldogs", teamRecord: "6-4"),
-        .init(teamAbbreviation: "AIN", teamName: "Aina", teamMascot: "Hulaaina", teamRecord: "5-5-7")
-    ]
-    
-    private let schedules: [ScheduleDetailsViewModel] = [
-        .init(dateEvent: "2023-01-01T18:00:00Z", eventLocation: "-", homeTeam: "Atlanta", leagueName: "-"),
-        .init(dateEvent: "2023-01-01T18:00:00Z", eventLocation: "-", homeTeam: "New England", leagueName: "-"),
-        .init(dateEvent: "2023-01-01T18:00:00Z", eventLocation: "-", homeTeam: "Houston", leagueName: "-"),
-        .init(dateEvent: "2023-01-01T18:00:00Z", eventLocation: "-", homeTeam: "Tampa Bay", leagueName: "-")
-    ]
-
-    
     private lazy var itemsToDisplay: [CellType] = []
-//    private lazy var itemsToDisplay: [CellType] = teams.map { .team($0) }
-//    private lazy var itemsToDisplay: [CellType] = schedules.map { .schedule($0) }
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        itemsToDisplay = teams.map { .team($0) }
-        
+        itemsToDisplay = getSchedule()
         detailsCollectionView.reloadData()
     }
     
@@ -87,8 +63,10 @@ class SportDetailsViewController:  UIViewController,
         detailsCollectionView.delegate = self
         detailsCollectionView.dataSource = self
         
-        detailsCollectionView.register(TeamDetailsCollectionViewCell.self, forCellWithReuseIdentifier: TeamDetailsCollectionViewCell.identifier)
-        detailsCollectionView.register(ScheduleDetailsCollectionViewCell.self, forCellWithReuseIdentifier: ScheduleDetailsCollectionViewCell.identifier)
+        detailsCollectionView.register(TeamDetailsCollectionViewCell.self,
+                                       forCellWithReuseIdentifier: TeamDetailsCollectionViewCell.identifier)
+        detailsCollectionView.register(ScheduleDetailsCollectionViewCell.self,
+                                       forCellWithReuseIdentifier: ScheduleDetailsCollectionViewCell.identifier)
         
         createActivityIndicator()
         
@@ -102,8 +80,8 @@ class SportDetailsViewController:  UIViewController,
                                    action: #selector(handleSegmentControl),
                                    for: .valueChanged)
         
-        itemsToDisplay = teams.map { .team($0) }
-        
+        itemsToDisplay = getSchedule()
+     
         NSLayoutConstraint.activate([
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -123,7 +101,7 @@ class SportDetailsViewController:  UIViewController,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let item = itemsToDisplay[indexPath.item]
-        
+
         switch item {
         case let .team(model):
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamDetailsCollectionViewCell.identifier,
@@ -145,7 +123,7 @@ class SportDetailsViewController:  UIViewController,
         
         let frame = collectionView.frame
         let widthCell = frame.width - CGFloat(20)
-        let heightCell = CGFloat(120)
+        let heightCell = CGFloat(140)
         return CGSize(width: widthCell, height: heightCell)
     }
         
@@ -158,17 +136,17 @@ class SportDetailsViewController:  UIViewController,
         
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            itemsToDisplay = teams.map({ .team($0) })
+            itemsToDisplay = getTeams()
             detailsCollectionView.reloadData()
         case 1:
-            itemsToDisplay = schedules.map({ .schedule($0) })
+            itemsToDisplay = getSchedule()
             detailsCollectionView.reloadData()
         default:
-            itemsToDisplay = teams.map({ .team($0) })
+            itemsToDisplay = getSchedule()
             detailsCollectionView.reloadData()
         }
     }
-    
+
     private func createActivityIndicator() {
 
         activityIndicator.center = self.view.center
@@ -182,5 +160,46 @@ class SportDetailsViewController:  UIViewController,
     func closeVCAction() {
         dismiss(animated: true)
     }
-}
 
+    private func getTeams() -> [CellType] {
+        
+        sportsDataManager?.getTeam { [weak self] teamArray in
+            guard let self else { return }
+            self.teams = teamArray
+
+            self.activityIndicator.stopAnimating()
+            self.detailsCollectionView.reloadData()
+
+            print(self.teams.count)
+
+            self.itemsToDisplay = teamArray.map({ TeamDetailsViewModel(abbreviation: $0.abbreviation,
+                                                                        name: $0.name,
+                                                                        mascot: $0.mascot,
+                                                                        record: $0.record)
+            }).map({ .team($0) })
+            print(self.itemsToDisplay.count)
+        }
+        
+        return itemsToDisplay
+     }
+     
+     private func getSchedule() -> [CellType] {
+     
+        sportsDataManager?.getSchedule(sportId: 1, limit: 6) { [weak self] schedulesArray in
+            guard let self else { return }
+            self.schedules = schedulesArray
+            self.detailsCollectionView.reloadData()
+            self.activityIndicator.stopAnimating()
+            
+            print("schedule = \(self.schedules.count)")
+            self.itemsToDisplay = schedulesArray.map({ ScheduleDetailsViewModel(dateEvent: $0.dateEvent,
+                                                                                eventLocation: $0.eventLocation,
+                                                                                homeTeam: $0.homeTeam,
+                                                                                leagueName: $0.leagueName)
+            }).map({ .schedule($0) })
+            print("schedule = \(self.itemsToDisplay.count)")
+        }
+         
+        return itemsToDisplay
+    }
+}

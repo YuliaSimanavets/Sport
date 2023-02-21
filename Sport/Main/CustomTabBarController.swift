@@ -23,10 +23,7 @@ class CustomTabBarController: UITabBarController {
         let favoritesVC = FavouritesViewController()
         
         let sportDataManager = SportsDataManager()
-        let detailsVC = SportDetailsViewController()
-        
         generalVC.set(sportDataManager)
-        detailsVC.set(sportDataManager)
         
         viewControllers = [
             generateVC(viewController: generalVC,
