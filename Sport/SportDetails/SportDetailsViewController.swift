@@ -45,13 +45,6 @@ class SportDetailsViewController:  UIViewController,
     private var schedules = [ScheduleModel]()
         
     private lazy var itemsToDisplay: [CellType] = []
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        itemsToDisplay = getSchedule()
-        detailsCollectionView.reloadData()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,8 +73,15 @@ class SportDetailsViewController:  UIViewController,
                                    action: #selector(handleSegmentControl),
                                    for: .valueChanged)
         
-        itemsToDisplay = getSchedule()
-     
+        let group = DispatchGroup()
+        
+        DispatchQueue.main.async(group: group) {
+            self.getTeams()
+        }
+        DispatchQueue.main.async(group: group) {
+            self.getSchedule()
+        }
+        
         NSLayoutConstraint.activate([
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -136,13 +136,25 @@ class SportDetailsViewController:  UIViewController,
         
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            itemsToDisplay = getTeams()
+            itemsToDisplay = teams.map({ TeamDetailsViewModel(abbreviation: $0.abbreviation,
+                                                                        name: $0.name,
+                                                                        mascot: $0.mascot,
+                                                                        record: $0.record)
+            }).map({ .team($0) })
             detailsCollectionView.reloadData()
         case 1:
-            itemsToDisplay = getSchedule()
+            itemsToDisplay = schedules.map({ ScheduleDetailsViewModel(dateEvent: $0.dateEvent,
+                                                                                eventLocation: $0.eventLocation,
+                                                                                homeTeam: $0.homeTeam,
+                                                                                leagueName: $0.leagueName)
+            }).map({ .schedule($0) })
             detailsCollectionView.reloadData()
         default:
-            itemsToDisplay = getSchedule()
+            itemsToDisplay = teams.map({ TeamDetailsViewModel(abbreviation: $0.abbreviation,
+                                                                        name: $0.name,
+                                                                        mascot: $0.mascot,
+                                                                        record: $0.record)
+            }).map({ .team($0) })
             detailsCollectionView.reloadData()
         }
     }
@@ -161,7 +173,7 @@ class SportDetailsViewController:  UIViewController,
         dismiss(animated: true)
     }
 
-    private func getTeams() -> [CellType] {
+    private func getTeams() {
         
         sportsDataManager?.getTeam { [weak self] teamArray in
             guard let self else { return }
@@ -170,20 +182,15 @@ class SportDetailsViewController:  UIViewController,
             self.activityIndicator.stopAnimating()
             self.detailsCollectionView.reloadData()
 
-            print(self.teams.count)
-
             self.itemsToDisplay = teamArray.map({ TeamDetailsViewModel(abbreviation: $0.abbreviation,
                                                                         name: $0.name,
                                                                         mascot: $0.mascot,
                                                                         record: $0.record)
             }).map({ .team($0) })
-            print(self.itemsToDisplay.count)
         }
-        
-        return itemsToDisplay
      }
      
-     private func getSchedule() -> [CellType] {
+     private func getSchedule() {
      
         sportsDataManager?.getSchedule(sportId: 1, limit: 6) { [weak self] schedulesArray in
             guard let self else { return }
@@ -191,15 +198,11 @@ class SportDetailsViewController:  UIViewController,
             self.detailsCollectionView.reloadData()
             self.activityIndicator.stopAnimating()
             
-            print("schedule = \(self.schedules.count)")
             self.itemsToDisplay = schedulesArray.map({ ScheduleDetailsViewModel(dateEvent: $0.dateEvent,
                                                                                 eventLocation: $0.eventLocation,
                                                                                 homeTeam: $0.homeTeam,
                                                                                 leagueName: $0.leagueName)
             }).map({ .schedule($0) })
-            print("schedule = \(self.itemsToDisplay.count)")
         }
-         
-        return itemsToDisplay
     }
 }
