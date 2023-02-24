@@ -16,10 +16,12 @@ class SportDetailsViewController:  UIViewController,
         case team(TeamDetailsViewModel)
         case schedule(ScheduleDetailsViewModel)
     }
-
+        
     var sportsDataManager: SportsDataManager?
-    
+    private var sportID: Int = 0
+
     private let activityIndicator = UIActivityIndicatorView()
+    private let dispatchGroup = DispatchGroup()
     
     private let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Teams", "Schedule"])
@@ -46,6 +48,12 @@ class SportDetailsViewController:  UIViewController,
         
     private lazy var itemsToDisplay: [CellType] = []
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        detailsCollectionView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
      
@@ -64,22 +72,18 @@ class SportDetailsViewController:  UIViewController,
         createActivityIndicator()
         
         title = "Details"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close",
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(closeVCAction))
         
         segmentedControl.addTarget(self,
                                    action: #selector(handleSegmentControl),
                                    for: .valueChanged)
         
-        let group = DispatchGroup()
+        getTeams()
+        getSchedule()
         
-        DispatchQueue.main.async(group: group) {
-            self.getTeams()
-        }
-        DispatchQueue.main.async(group: group) {
-            self.getSchedule()
+        dispatchGroup.notify(queue: .main) {
+            print("ready")
+            self.detailsCollectionView.reloadData()
+            self.activityIndicator.stopAnimating()
         }
         
         NSLayoutConstraint.activate([
@@ -127,8 +131,12 @@ class SportDetailsViewController:  UIViewController,
         return CGSize(width: widthCell, height: heightCell)
     }
         
-    func set(_ data: SportsDataManager) {
+    func set(_ data: SportsDataManager?) {
         sportsDataManager = data
+    }
+    
+    func setSportID(sportID: Int) {
+        self.sportID = sportID
     }
     
     @objc
@@ -167,42 +175,38 @@ class SportDetailsViewController:  UIViewController,
         activityIndicator.color = .black
         activityIndicator.style = .medium
     }
-    
-    @objc
-    func closeVCAction() {
-        dismiss(animated: true)
-    }
 
     private func getTeams() {
         
-        sportsDataManager?.getTeam { [weak self] teamArray in
+        dispatchGroup.enter()
+        sportsDataManager?.getTeam(sportId: sportID) { [weak self] teamArray in
             guard let self else { return }
             self.teams = teamArray
-
-            self.activityIndicator.stopAnimating()
-            self.detailsCollectionView.reloadData()
-
+            
             self.itemsToDisplay = teamArray.map({ TeamDetailsViewModel(abbreviation: $0.abbreviation,
-                                                                        name: $0.name,
-                                                                        mascot: $0.mascot,
-                                                                        record: $0.record)
+                                                                       name: $0.name,
+                                                                       mascot: $0.mascot,
+                                                                       record: $0.record)
             }).map({ .team($0) })
+            
+            self.dispatchGroup.leave()
         }
-     }
-     
-     private func getSchedule() {
-     
-        sportsDataManager?.getSchedule(sportId: 1, limit: 6) { [weak self] schedulesArray in
+    }
+
+    private func getSchedule() {
+        
+        dispatchGroup.enter()
+        sportsDataManager?.getSchedule(sportId: sportID, limit: 20) { [weak self] schedulesArray in
             guard let self else { return }
             self.schedules = schedulesArray
-            self.detailsCollectionView.reloadData()
-            self.activityIndicator.stopAnimating()
             
             self.itemsToDisplay = schedulesArray.map({ ScheduleDetailsViewModel(dateEvent: $0.dateEvent,
                                                                                 eventLocation: $0.eventLocation,
                                                                                 homeTeam: $0.homeTeam,
                                                                                 leagueName: $0.leagueName)
             }).map({ .schedule($0) })
+            
+            self.dispatchGroup.leave()
         }
     }
 }

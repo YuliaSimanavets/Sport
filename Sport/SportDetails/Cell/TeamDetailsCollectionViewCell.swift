@@ -26,6 +26,14 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
         return String(describing: TeamDetailsCollectionViewCell.self)
     }
     
+    private struct Sizes {
+        static let topBottomOffset: CGFloat = 15
+        static let leadingOffset: CGFloat = 20
+        static let trailingOffset: CGFloat = 20
+        static let stackViewSpasing: CGFloat = 10
+        static let heightText: CGFloat = 18
+    }
+    
     private let teamAbbreviationLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .regular)
@@ -67,18 +75,18 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
         let stackView = UIStackView(arrangedSubviews: [teamAbbreviationLabel, teamNameLabel, teamRecordLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = CGFloat(10)
+        stackView.spacing = Sizes.stackViewSpasing
         
         contentView.addSubview(stackView)
         contentView.addSubview(teamMascotLabel)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Sizes.topBottomOffset),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Sizes.leadingOffset),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Sizes.trailingOffset),
             
             teamMascotLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
-            teamMascotLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            teamMascotLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Sizes.trailingOffset)
         ])
     }
     
@@ -89,4 +97,9 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
         teamMascotLabel.text = data.mascot
         teamRecordLabel.text = data.record
     }
+    
+//    static func size(for data: TeamDetailsViewModel, containerSize: CGSize) -> CGSize {
+//        var height = Sizes.topBottomOffset * 2 + Sizes.heightText * 4 + Sizes.stackViewSpasing * 3
+//        return .init(width: containerSize.width, height: height)
+//    }
 }

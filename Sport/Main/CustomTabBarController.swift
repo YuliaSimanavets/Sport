@@ -19,25 +19,30 @@ class CustomTabBarController: UITabBarController {
     
     private func generateTabBar() {
         
-        let generalVC = GeneralViewController()
-        let favoritesVC = FavouritesViewController()
+        let generalViewController = GeneralViewController()
+        let generalNavViewController = UINavigationController(rootViewController: generalViewController)
+        let favoritesViewController = FavouritesViewController()
         
         let sportDataManager = SportsDataManager()
-        generalVC.set(sportDataManager)
+        generalViewController.set(sportDataManager)
         
         viewControllers = [
-            generateVC(viewController: generalVC,
-                       title: "Schedule",
-                       image: UIImage(systemName: "tablecells.badge.ellipsis"),
-                       backgroundColor: UIColor.backViewControllers),
-            generateVC(viewController: favoritesVC,
-                       title: "Favourites",
-                       image: UIImage(systemName: "star.bubble"),
-                       backgroundColor: UIColor.backViewControllers)
+            generateViewController(viewController: generalNavViewController,
+                                   title: "Schedule",
+                                   image: UIImage(systemName: "tablecells.badge.ellipsis"),
+                                   backgroundColor: UIColor.backViewControllers),
+            generateViewController(viewController: favoritesViewController,
+                                   title: "Favourites",
+                                   image: UIImage(systemName: "star.bubble"),
+                                   backgroundColor: UIColor.backViewControllers)
             ]
     }
     
-    private func generateVC(viewController: UIViewController, title: String, image: UIImage?, backgroundColor: UIColor) -> UIViewController {
+    private func generateViewController(viewController: UIViewController,
+                                        title: String,
+                                        image: UIImage?,
+                                        backgroundColor: UIColor) -> UIViewController {
+        
         viewController.tabBarItem.title = title
         viewController.tabBarItem.image = image
         viewController.view.backgroundColor = backgroundColor
@@ -45,6 +50,7 @@ class CustomTabBarController: UITabBarController {
     }
     
     private func setTabBarAppearance() {
+        
         let posicionOnX: CGFloat = 10
         let posicionOnY: CGFloat = 10
         

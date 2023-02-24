@@ -51,10 +51,10 @@ class SportsDataManager {
         task.resume()
     }
     
-    func getTeam(completion: @escaping ([TeamModel]) -> ()) {
-
+    func getTeam(sportId: Int, completion: @escaping ([TeamModel]) -> ()) {
+        
         let teams = DetailOptions.teams.rawValue
-        components.path = "/therundown/sports/" + String(1) + "/" + teams
+        components.path = "/therundown/sports/" + String(sportId) + "/" + teams
         
         guard let url = components.url?.absoluteString else { return }
         
@@ -72,7 +72,7 @@ class SportsDataManager {
 
                 let teamData = try? JSONDecoder().decode(TeamsData.self, from: responseData)
 
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
                     completion(teamData?.teams ?? [])
                 }
             }

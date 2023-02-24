@@ -16,14 +16,6 @@ class GeneralViewController: UIViewController,
     
     private let activityIndicator = UIActivityIndicatorView()
     
-    private let actionButton: UIButton = {
-        let button = UIButton()
-        button.setTitleColor(.black, for: .normal)
-        button.setImage(UIImage(systemName: "star"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     private let generalLabel: UILabel = {
         let label = UILabel()
         label.text = "Select sport"
@@ -51,9 +43,6 @@ class GeneralViewController: UIViewController,
         view.addSubview(generalLabel)
         view.addSubview(typesCollectionView)
         
-        view.addSubview(actionButton)
-        actionButton.addTarget(self, action: #selector(tapAction), for: .touchUpInside)
-        
         typesCollectionView.delegate = self
         typesCollectionView.dataSource = self
         
@@ -77,12 +66,7 @@ class GeneralViewController: UIViewController,
         }
         
         NSLayoutConstraint.activate([
-            actionButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            actionButton.heightAnchor.constraint(equalToConstant: 40),
-            actionButton.widthAnchor.constraint(equalToConstant: 40),
-            
-            generalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            generalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             generalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             typesCollectionView.topAnchor.constraint(equalTo: generalLabel.topAnchor, constant: 50),
@@ -109,6 +93,11 @@ class GeneralViewController: UIViewController,
         
         return cell
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        tapAction(selectedIndex: indexPath)
+    }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -132,15 +121,14 @@ class GeneralViewController: UIViewController,
     }
     
     @objc
-    func tapAction() {
-        let detailsVC = SportDetailsViewController()
-        let navController = UINavigationController(rootViewController: detailsVC)
-        navController.modalPresentationStyle = .fullScreen
-        present(navController, animated: true)
-//        navigationController?.pushViewController(detailsVC, animated: true)
+    func tapAction(selectedIndex: IndexPath) {
         
-        let dataManager = SportsDataManager()
-        detailsVC.set(dataManager)
+        let sportID = generalArray[selectedIndex.item].sportID
+        
+        let detailsVC = SportDetailsViewController()
+        navigationController?.pushViewController(detailsVC, animated: true)
+        
+        detailsVC.setSportID(sportID: sportID)
+        detailsVC.set(sportsDataManager)
     }
 }
-
