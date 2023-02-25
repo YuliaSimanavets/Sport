@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "NHL.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "NHL.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

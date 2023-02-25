@@ -56,20 +56,17 @@ class GeneralViewController: UIViewController,
             self.sportTypesArray = sportArray
             self.activityIndicator.stopAnimating()
             self.typesCollectionView.reloadData()
-            
-            print("sportTypesArray: \(self.sportTypesArray )")
+
             self.generalArray = sportArray.map({ sport in
                 if let sportType = Sport(rawValue: sport.sportID) {
                     return GeneralSportModel(sportID: sport.sportID, sportName: sport.sportName, sportType: sportType)
                 }
                 return nil
             }).compactMap({ $0 })
-
-            print("generalArray: \(self.generalArray)")
         }
         
         NSLayoutConstraint.activate([
-            generalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            generalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             generalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             typesCollectionView.topAnchor.constraint(equalTo: generalLabel.topAnchor, constant: 50),
@@ -96,6 +93,11 @@ class GeneralViewController: UIViewController,
         
         return cell
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        tapAction(selectedIndex: indexPath)
+    }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -117,5 +119,17 @@ class GeneralViewController: UIViewController,
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }
+    
+    @objc
+    func tapAction(selectedIndex: IndexPath) {
+        
+        let sportID = generalArray[selectedIndex.item].sportID
+        let sportName = generalArray[selectedIndex.item].sportName
+        
+        let detailsVC = SportDetailsViewController()
+        navigationController?.pushViewController(detailsVC, animated: true)
+        
+        detailsVC.setSportIdAndName(sportID: sportID, title: sportName)
+        detailsVC.set(sportsDataManager)
+    }
 }
-

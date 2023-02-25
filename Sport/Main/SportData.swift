@@ -59,9 +59,11 @@ struct GeneralSportModel {
             return UIImage(named: "ITA1")
         case .uefaChamp:
             return UIImage(named: "UEFA")
+        case .uefaEuro:
+            return UIImage(named: "UEFAEURO")
         case .fifa:
             return UIImage(named: "FIFA")
-        case .gpn1:
+        case .jpn1:
             return UIImage(named: "")
         }
     }

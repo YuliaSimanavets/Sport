@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "UEFA.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "UEFA.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
