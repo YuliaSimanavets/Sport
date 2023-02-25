@@ -124,11 +124,12 @@ class GeneralViewController: UIViewController,
     func tapAction(selectedIndex: IndexPath) {
         
         let sportID = generalArray[selectedIndex.item].sportID
+        let sportName = generalArray[selectedIndex.item].sportName
         
         let detailsVC = SportDetailsViewController()
         navigationController?.pushViewController(detailsVC, animated: true)
         
-        detailsVC.setSportID(sportID: sportID)
+        detailsVC.setSportIdAndName(sportID: sportID, title: sportName)
         detailsVC.set(sportsDataManager)
     }
 }

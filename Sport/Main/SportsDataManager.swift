@@ -72,7 +72,7 @@ class SportsDataManager {
 
                 let teamData = try? JSONDecoder().decode(TeamsData.self, from: responseData)
 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                DispatchQueue.main.async {
                     completion(teamData?.teams ?? [])
                 }
             }

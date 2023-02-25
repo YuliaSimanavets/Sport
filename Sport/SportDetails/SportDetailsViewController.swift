@@ -19,6 +19,7 @@ class SportDetailsViewController:  UIViewController,
         
     var sportsDataManager: SportsDataManager?
     private var sportID: Int = 0
+    private var titleName: String = "Details"
 
     private let activityIndicator = UIActivityIndicatorView()
     private let dispatchGroup = DispatchGroup()
@@ -47,13 +48,7 @@ class SportDetailsViewController:  UIViewController,
     private var schedules = [ScheduleModel]()
         
     private lazy var itemsToDisplay: [CellType] = []
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
 
-        detailsCollectionView.reloadData()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
      
@@ -71,7 +66,7 @@ class SportDetailsViewController:  UIViewController,
         
         createActivityIndicator()
         
-        title = "Details"
+        title = titleName
         
         segmentedControl.addTarget(self,
                                    action: #selector(handleSegmentControl),
@@ -135,8 +130,9 @@ class SportDetailsViewController:  UIViewController,
         sportsDataManager = data
     }
     
-    func setSportID(sportID: Int) {
+    func setSportIdAndName(sportID: Int, title: String) {
         self.sportID = sportID
+        self.titleName = title
     }
     
     @objc
