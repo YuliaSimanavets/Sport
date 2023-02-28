@@ -20,6 +20,8 @@ class SportDetailsViewController:  UIViewController,
     var sportsDataManager: SportsDataManager?
     private var sportID: Int = 0
     private var titleName: String = "Details"
+    
+    var favouritesDataManager: FavouritesDataManager?
 
     private let activityIndicator = UIActivityIndicatorView()
     private let dispatchGroup = DispatchGroup()
@@ -48,6 +50,8 @@ class SportDetailsViewController:  UIViewController,
     private var schedules = [ScheduleModel]()
         
     private lazy var itemsToDisplay: [CellType] = []
+    
+    private var favouritesTeams = [TeamDetailsViewModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,6 +129,11 @@ class SportDetailsViewController:  UIViewController,
         let heightCell = CGFloat(140)
         return CGSize(width: widthCell, height: heightCell)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        addToFavourites(selectedIndex: indexPath)
+    }
         
     func set(_ data: SportsDataManager?) {
         sportsDataManager = data
@@ -133,6 +142,10 @@ class SportDetailsViewController:  UIViewController,
     func setSportIdAndName(sportID: Int, title: String) {
         self.sportID = sportID
         self.titleName = title
+    }
+    
+    func setFavourites(_ data: FavouritesDataManager?) {
+        favouritesDataManager = data
     }
     
     @objc
@@ -205,4 +218,10 @@ class SportDetailsViewController:  UIViewController,
             self.dispatchGroup.leave()
         }
     }
+    
+    func addToFavourites(selectedIndex: IndexPath) {
+        
+        favouritesDataManager?.addTeamSchedule(favouritesTeams[selectedIndex.item])
+    }
+    
 }

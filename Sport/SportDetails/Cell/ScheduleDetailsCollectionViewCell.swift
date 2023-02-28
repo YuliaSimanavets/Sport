@@ -13,7 +13,7 @@ import UIKit
                 "league_name": "National Football League"
  */
 
-struct ScheduleDetailsViewModel {
+struct ScheduleDetailsViewModel: Codable {
     let dateEvent: Date
     let eventLocation: String
     let homeTeam: String
@@ -64,6 +64,21 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
         return label
     }()
     
+    private let favouritesAddButton: UIButton = {
+        let addButton = UIButton()
+        addButton.tintColor = .systemPink
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        return addButton
+    }()
+    
+    var likes : Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "likes")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "likes")
+        }
+    }
     override func setupView() {
         super.setupView()
         
@@ -77,8 +92,21 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
         stackView.alignment = .center
         
         contentView.addSubview(stackView)
+        contentView.addSubview(favouritesAddButton)
+        
+        favouritesAddButton.addTarget(self, action: #selector(tapToFavouritesAction), for: .touchUpInside)
+        self.favouritesAddButton.isSelected = self.likes
+        self.favouritesAddButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        self.favouritesAddButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        
+        favouritesAddButton.addTarget(self, action: #selector(tapToFavouritesAction), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
+            favouritesAddButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            favouritesAddButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            favouritesAddButton.widthAnchor.constraint(equalToConstant: 25),
+            favouritesAddButton.heightAnchor.constraint(equalToConstant: 25),
+            
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
@@ -91,5 +119,11 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
         eventLocationLabel.text = data.eventLocation
         homeTeamLabel.text = data.homeTeam
         leagueNameLabel.text = data.leagueName
+    }
+    
+    @objc
+    func tapToFavouritesAction() {
+        self.likes = !self.favouritesAddButton.isSelected
+        self.favouritesAddButton.isSelected = self.likes
     }
 }
