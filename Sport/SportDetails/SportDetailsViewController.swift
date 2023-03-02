@@ -51,8 +51,6 @@ class SportDetailsViewController:  UIViewController,
         
     private lazy var itemsToDisplay: [CellType] = []
     
-    private var favouritesTeams = [TeamDetailsViewModel]()
-
     override func viewDidLoad() {
         super.viewDidLoad()
      
@@ -80,7 +78,6 @@ class SportDetailsViewController:  UIViewController,
         getSchedule()
         
         dispatchGroup.notify(queue: .main) {
-            print("ready")
             self.detailsCollectionView.reloadData()
             self.activityIndicator.stopAnimating()
         }
@@ -97,6 +94,7 @@ class SportDetailsViewController:  UIViewController,
         ])
     }
     
+// MARK: - Methods for cell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemsToDisplay.count
     }
@@ -134,7 +132,8 @@ class SportDetailsViewController:  UIViewController,
         
         addToFavourites(selectedIndex: indexPath)
     }
-        
+    
+// MARK: - setData methods
     func set(_ data: SportsDataManager?) {
         sportsDataManager = data
     }
@@ -154,23 +153,23 @@ class SportDetailsViewController:  UIViewController,
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             itemsToDisplay = teams.map({ TeamDetailsViewModel(abbreviation: $0.abbreviation,
-                                                                        name: $0.name,
-                                                                        mascot: $0.mascot,
-                                                                        record: $0.record)
+                                                              name: $0.name,
+                                                              mascot: $0.mascot,
+                                                              record: $0.record)
             }).map({ .team($0) })
             detailsCollectionView.reloadData()
         case 1:
             itemsToDisplay = schedules.map({ ScheduleDetailsViewModel(dateEvent: $0.dateEvent,
-                                                                                eventLocation: $0.eventLocation,
-                                                                                homeTeam: $0.homeTeam,
-                                                                                leagueName: $0.leagueName)
+                                                                      eventLocation: $0.eventLocation,
+                                                                      homeTeam: $0.homeTeam,
+                                                                      leagueName: $0.leagueName)
             }).map({ .schedule($0) })
             detailsCollectionView.reloadData()
         default:
             itemsToDisplay = teams.map({ TeamDetailsViewModel(abbreviation: $0.abbreviation,
-                                                                        name: $0.name,
-                                                                        mascot: $0.mascot,
-                                                                        record: $0.record)
+                                                              name: $0.name,
+                                                              mascot: $0.mascot,
+                                                              record: $0.record)
             }).map({ .team($0) })
             detailsCollectionView.reloadData()
         }
@@ -220,8 +219,11 @@ class SportDetailsViewController:  UIViewController,
     }
     
     func addToFavourites(selectedIndex: IndexPath) {
+       
+        let item = itemsToDisplay[selectedIndex.item]
+//        favouritesDataManager?.addTeamSchedule(item)
         
-        favouritesDataManager?.addTeamSchedule(favouritesTeams[selectedIndex.item])
+        let ready = favouritesDataManager?.getData()
+        print(ready ?? [])
     }
-    
 }

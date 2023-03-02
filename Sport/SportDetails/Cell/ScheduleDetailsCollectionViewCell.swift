@@ -13,7 +13,7 @@ import UIKit
                 "league_name": "National Football League"
  */
 
-struct ScheduleDetailsViewModel: Codable {
+struct ScheduleDetailsViewModel {
     let dateEvent: Date
     let eventLocation: String
     let homeTeam: String
@@ -95,9 +95,9 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
         contentView.addSubview(favouritesAddButton)
         
         favouritesAddButton.addTarget(self, action: #selector(tapToFavouritesAction), for: .touchUpInside)
-        self.favouritesAddButton.isSelected = self.likes
-        self.favouritesAddButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        self.favouritesAddButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        favouritesAddButton.isSelected = likes
+        favouritesAddButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        favouritesAddButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         
         favouritesAddButton.addTarget(self, action: #selector(tapToFavouritesAction), for: .touchUpInside)
         
@@ -123,7 +123,7 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
     
     @objc
     func tapToFavouritesAction() {
-        self.likes = !self.favouritesAddButton.isSelected
-        self.favouritesAddButton.isSelected = self.likes
+        likes = !favouritesAddButton.isSelected
+        favouritesAddButton.isSelected = likes
     }
 }

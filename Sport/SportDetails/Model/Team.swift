@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct TeamsData: Decodable {
+struct TeamsData: Codable {
     let teams: [TeamModel]
 }
 
-struct TeamModel: Decodable {
+struct TeamModel: Codable {
     let abbreviation: String
     let mascot: String
     let name: String
@@ -29,7 +29,7 @@ struct TeamModel: Decodable {
     }
 }
 
-struct Conference: Decodable {
+struct Conference: Codable {
     let sportID: Int
 
     enum CodingKeys: String, CodingKey {

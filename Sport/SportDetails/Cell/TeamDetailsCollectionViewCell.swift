@@ -13,7 +13,7 @@ import UIKit
             "record": "7-4"
  */
 
-struct TeamDetailsViewModel: Codable {
+struct TeamDetailsViewModel {
     let abbreviation: String
     let name: String
     let mascot: String
@@ -98,9 +98,9 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
         contentView.addSubview(favouritesAddButton)
         
         favouritesAddButton.addTarget(self, action: #selector(tapToFavouritesAction), for: .touchUpInside)
-        self.favouritesAddButton.isSelected = self.likes
-        self.favouritesAddButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        self.favouritesAddButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        favouritesAddButton.isSelected = likes
+        favouritesAddButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        favouritesAddButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         
         NSLayoutConstraint.activate([
             favouritesAddButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Sizes.topBottomOffset),
@@ -127,8 +127,8 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
     
     @objc
     func tapToFavouritesAction() {
-        self.likes = !self.favouritesAddButton.isSelected
-        self.favouritesAddButton.isSelected = self.likes
+        likes = !favouritesAddButton.isSelected
+        favouritesAddButton.isSelected = likes
     }
     
 //    static func size(for data: TeamDetailsViewModel, containerSize: CGSize) -> CGSize {

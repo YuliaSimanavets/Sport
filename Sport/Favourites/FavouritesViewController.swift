@@ -13,29 +13,26 @@ class FavouritesViewController: UIViewController,
                                 UICollectionViewDelegateFlowLayout {
     private enum CellType {
         case team(TeamDetailsViewModel)
-        case cshedule(ScheduleDetailsViewModel)
+        case schedule(ScheduleDetailsViewModel)
     }
-    
-    //    private var favourites = [CellType]()
-    
+
     private var favouritesDataManager: FavouritesDataManager?
     
     private let favouritesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemYellow
+        collectionView.backgroundColor = .clear
         layout.scrollDirection = .vertical
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    private var favouritesTeams = [TeamDetailsViewModel]()
-    
+    private var favourites = [CellType]()
+        
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        favouritesTeams = favouritesDataManager?.getData() ?? []
-        
+//        favourites = favouritesDataManager?.getData() ?? []
         favouritesCollectionView.reloadData()
     }
     
@@ -51,7 +48,7 @@ class FavouritesViewController: UIViewController,
         favouritesCollectionView.register(ScheduleDetailsCollectionViewCell.self,
                                           forCellWithReuseIdentifier: ScheduleDetailsCollectionViewCell.identifier)
         
-        favouritesTeams = favouritesDataManager?.getData() ?? []
+//        favourites = favouritesDataManager?.getData() ?? []
         
         NSLayoutConstraint.activate([
             favouritesCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -62,19 +59,27 @@ class FavouritesViewController: UIViewController,
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return favouritesTeams.count
+        return favourites.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamDetailsCollectionViewCell.identifier, for: indexPath)
-                
-        if let myCell = cell as? TeamDetailsCollectionViewCell {
-            let item = favouritesTeams[indexPath.item]
-            myCell.set(item)
-            return cell
+        let item = favourites[indexPath.item]
+
+        switch item {
+        case let .team(model):
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamDetailsCollectionViewCell.identifier,
+                                                             for: indexPath) as? TeamDetailsCollectionViewCell {
+                cell.set(model)
+                return cell
+            }
+        case let .schedule(model):
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScheduleDetailsCollectionViewCell.identifier,
+                                                             for: indexPath) as? ScheduleDetailsCollectionViewCell {
+                cell.set(model)
+                return cell
+            }
         }
-        
         return UICollectionViewCell()
     }
     

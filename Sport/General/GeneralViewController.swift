@@ -128,8 +128,10 @@ class GeneralViewController: UIViewController,
         
         let detailsVC = SportDetailsViewController()
         navigationController?.pushViewController(detailsVC, animated: true)
+        let favouritesDataManager = FavouritesDataManager()
         
         detailsVC.setSportIdAndName(sportID: sportID, title: sportName)
         detailsVC.set(sportsDataManager)
+        detailsVC.setFavourites(favouritesDataManager)
     }
 }
