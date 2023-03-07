@@ -29,6 +29,8 @@ class CustomTabBarController: UITabBarController {
         
         let favouritesDataManager = FavouritesDataManager()
         favoritesViewController.set(favouritesDataManager)
+        let userDefaultsStorageManager = UserDefaultsStorageManager()
+        userDefaultsStorageManager.setDataFromMananger(favouritesDataManager)
         
         viewControllers = [
             generateViewController(viewController: generalNavViewController,

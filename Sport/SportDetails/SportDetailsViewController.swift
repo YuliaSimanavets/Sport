@@ -11,7 +11,7 @@ class SportDetailsViewController:  UIViewController,
                                    UICollectionViewDelegate,
                                    UICollectionViewDataSource,
                                    UICollectionViewDelegateFlowLayout {
-    
+   
     private enum CellType {
         case team(TeamDetailsViewModel)
         case schedule(ScheduleDetailsViewModel)
@@ -219,11 +219,20 @@ class SportDetailsViewController:  UIViewController,
     }
     
     func addToFavourites(selectedIndex: IndexPath) {
-       
-        let item = itemsToDisplay[selectedIndex.item]
-//        favouritesDataManager?.addTeamSchedule(item)
         
-        let ready = favouritesDataManager?.getData()
-        print(ready ?? [])
+        let item = itemsToDisplay[selectedIndex.item]
+        
+        switch item {
+        case let .team(model):
+            let mapArray = model
+            favouritesDataManager?.addTeam(model)
+        case let .schedule(model):
+            favouritesDataManager?.addSchedule(model)
+        }
+        
+//        let alertController = UIAlertController(title: title, message: "successfully added to favorites ⭐️", preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "OK", style: .default)
+//        alertController.addAction(okAction)
+//        present(alertController, animated: true, completion: nil)
     }
 }

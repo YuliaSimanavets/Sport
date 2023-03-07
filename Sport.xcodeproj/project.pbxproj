@@ -12,6 +12,7 @@
 		719C0FCFA28B27A6BB5954C4 /* Pods_Sport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 440762C8CE3C84C99D83A7E4 /* Pods_Sport.framework */; };
 		CA0E9D5E29AE8DFE00444EA0 /* FavouritesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0E9D5D29AE8DFE00444EA0 /* FavouritesDataManager.swift */; };
 		CA0E9D6029AE8E1E00444EA0 /* UserDefaultsStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0E9D5F29AE8E1E00444EA0 /* UserDefaultsStorageManager.swift */; };
+		CA39935A29B1096E00DE9136 /* PlistStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39935929B1096E00DE9136 /* PlistStorageManager.swift */; };
 		CA3B355429900AE800A4E3FF /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3B355329900AE800A4E3FF /* UIColorExtension.swift */; };
 		CA463915297AB739002488EA /* SportsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA463914297AB739002488EA /* SportsDataManager.swift */; };
 		CA4746462981535A004FDD48 /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4746452981535A004FDD48 /* Sport.swift */; };
@@ -29,6 +30,7 @@
 		CA7E248A299432820007EB51 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E2489299432820007EB51 /* Team.swift */; };
 		CA7E248E299433ED0007EB51 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7E248D299433ED0007EB51 /* Schedule.swift */; };
 		CAAA9B7C2996965A00484084 /* ScheduleDetailsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA9B7B2996965A00484084 /* ScheduleDetailsCollectionViewCell.swift */; };
+		CAC720DA29B6419A00B66674 /* FavouritesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC720D929B6419A00B66674 /* FavouritesCollectionViewCell.swift */; };
 		CAF2EBBF297C267B009DD50C /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */; };
 		CAF2EBC2297C26E7009DD50C /* SportTypesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2EBC1297C26E7009DD50C /* SportTypesCollectionViewCell.swift */; };
 		CAF2F86A29786726006AA3DE /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF2F86929786726006AA3DE /* CustomTabBarController.swift */; };
@@ -63,6 +65,7 @@
 		C6B58AA703C6DD7B3A8CE023 /* Pods-SportTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportTests.release.xcconfig"; path = "Target Support Files/Pods-SportTests/Pods-SportTests.release.xcconfig"; sourceTree = "<group>"; };
 		CA0E9D5D29AE8DFE00444EA0 /* FavouritesDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesDataManager.swift; sourceTree = "<group>"; };
 		CA0E9D5F29AE8E1E00444EA0 /* UserDefaultsStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorageManager.swift; sourceTree = "<group>"; };
+		CA39935929B1096E00DE9136 /* PlistStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistStorageManager.swift; sourceTree = "<group>"; };
 		CA3B355329900AE800A4E3FF /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		CA463914297AB739002488EA /* SportsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsDataManager.swift; sourceTree = "<group>"; };
 		CA4746452981535A004FDD48 /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
@@ -84,6 +87,7 @@
 		CA7E2489299432820007EB51 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		CA7E248D299433ED0007EB51 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		CAAA9B7B2996965A00484084 /* ScheduleDetailsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailsCollectionViewCell.swift; sourceTree = "<group>"; };
+		CAC720D929B6419A00B66674 /* FavouritesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAF2EBBE297C267B009DD50C /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAF2EBC1297C26E7009DD50C /* SportTypesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportTypesCollectionViewCell.swift; sourceTree = "<group>"; };
 		CAF2F86929786726006AA3DE /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 			children = (
 				CA0E9D5D29AE8DFE00444EA0 /* FavouritesDataManager.swift */,
 				CA0E9D5F29AE8E1E00444EA0 /* UserDefaultsStorageManager.swift */,
+				CA39935929B1096E00DE9136 /* PlistStorageManager.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -241,6 +246,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CAC720DB29B6419D00B66674 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CAC720D929B6419A00B66674 /* FavouritesCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		CAF2EBC0297C26D3009DD50C /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				CAF2F86E2978679E006AA3DE /* FavouritesViewController.swift */,
+				CAC720DB29B6419D00B66674 /* Cell */,
 				CA2E1B7029ACFE8E0081A694 /* DataManager */,
 			);
 			path = Favourites;
@@ -535,9 +549,11 @@
 				CA57A4D229786470005BE531 /* AppDelegate.swift in Sources */,
 				CA4746462981535A004FDD48 /* Sport.swift in Sources */,
 				CAF2F86A29786726006AA3DE /* CustomTabBarController.swift in Sources */,
+				CA39935A29B1096E00DE9136 /* PlistStorageManager.swift in Sources */,
 				CAF2F86F2978679E006AA3DE /* FavouritesViewController.swift in Sources */,
 				CA5AC9FF298ACB3C009F073D /* SportData.swift in Sources */,
 				CA463915297AB739002488EA /* SportsDataManager.swift in Sources */,
+				CAC720DA29B6419A00B66674 /* FavouritesCollectionViewCell.swift in Sources */,
 				CA7E248529942E280007EB51 /* SportDetailsViewController.swift in Sources */,
 				CA7E2487299431E60007EB51 /* TeamDetailsCollectionViewCell.swift in Sources */,
 				CAAA9B7C2996965A00484084 /* ScheduleDetailsCollectionViewCell.swift in Sources */,

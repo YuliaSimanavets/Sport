@@ -10,50 +10,50 @@ import UIKit
 
 class FavouritesDataManager {
     
-    enum CellType: Codable {
-        case team(TeamModel)
-        case schedule(ScheduleModel)
+    private var teamFavourites = [TeamFavouritesModel]()
+    private var scheduleFavourites = [ScheduleDetailsViewModel]()
+    
+    var storageManager: StorageManagerProtocol?
+      
+    func addTeam(_ data: TeamFavouritesModel) {
+        
+        teamFavourites.append(data)
+        print("add team count: \(teamFavourites.count)")
     }
     
-    init() {
-        if let dataFavourites = defaults.object(forKey: "item") as? [CellType] {
-            arrayFavourites = dataFavourites
-        }
+    func addSchedule(_ data: ScheduleDetailsViewModel) {
+        scheduleFavourites.append(data)
+        print(scheduleFavourites.count)
     }
     
-    private var arrayFavourites = [CellType]()
-    private let defaults = UserDefaults.standard
+    var arrayCommon: [TeamFavouritesModel] = [
+        .init(name: "a", record: "3-2"),
+        .init(name: "b", record: "3-2"),
+        .init(name: "c", record: "3-2"),
+        .init(name: "d", record: "3-2")
+    ]
     
-    private enum UserDefaultKeys: String {
-        case team
-        case schedule
+    func get() -> [TeamFavouritesModel] {
+
+//        print("teamFavourites count: \(teamFavourites.count)")
+//        return teamFavourites
+       
+        return arrayCommon
     }
     
-    func addTeamSchedule(_ data: CellType) {
-        
-        arrayFavourites.append(data)
-        let dataJSON = try? JSONEncoder().encode(arrayFavourites)
-        defaults.set(dataJSON, forKey: "item")
+    func removeItem(at data: Int) {
+        arrayCommon.remove(at: data)
+//        teamFavourites.remove(at: data)
     }
-    
-    func removeItem() {
-        
-        
-    }
-    
-    func getData() -> [CellType] {
-        
-        return arrayFavourites
-        
+
+    func isFavourite() -> Bool {
+
+        return true
     }
 }
 
-//struct FavouritesTeamViewModel: Codable {
-//
-//}
-//
-//struct FavouritesScheduleViewModel: Codable {
-//
-//}
 
-
+struct TeamFavouritesModel: Codable {
+    let name: String
+    let record: String
+}
