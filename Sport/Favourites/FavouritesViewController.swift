@@ -10,17 +10,15 @@ import UIKit
 class FavouritesViewController: UIViewController,
                                 UICollectionViewDelegate,
                                 UICollectionViewDataSource,
-                                UICollectionViewDelegateFlowLayout,
-                                FavouritesCollectionViewCellDelegate {
+                                UICollectionViewDelegateFlowLayout {
     
-    
-//    private enum CellType {
-//        case team(TeamDetailsViewModel)
-//        case schedule(ScheduleDetailsViewModel)
-//    }
+    private enum FavouritesCellType {
+        case team(FavouritesTeamViewModel)
+        case schedule(FavouritesScheduleViewModel)
+    }
 
     private var favouritesDataManager: FavouritesDataManager?
-    
+
     private let favouritesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -30,14 +28,15 @@ class FavouritesViewController: UIViewController,
         return collectionView
     }()
 
-    private var favourites = [FavouritesViewModel]()
-        
+    private var teams = [TeamFavouritesModel]()
+    private var schedules = [ScheduleFavouritesModel]()
+    
+    private var favourites = [FavouritesCellType]()
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        favourites = favouritesDataManager?.get().map({ FavouritesViewModel(name: $0.name, record: $0.record) }) ?? []
-        
-        print("favourites array: \(favourites)")
+
+        getFavourites()
         favouritesCollectionView.reloadData()
     }
     
@@ -48,11 +47,12 @@ class FavouritesViewController: UIViewController,
         favouritesCollectionView.delegate = self
         favouritesCollectionView.dataSource = self
         
-        favouritesCollectionView.register(FavouritesCollectionViewCell.self,
-                                          forCellWithReuseIdentifier: FavouritesCollectionViewCell.identifier)
+        favouritesCollectionView.register(FavouritesTeamsCollectionViewCell.self,
+                                          forCellWithReuseIdentifier: FavouritesTeamsCollectionViewCell.identifier)
+        favouritesCollectionView.register(FavouritesScheduleCollectionViewCell.self,
+                                          forCellWithReuseIdentifier: FavouritesScheduleCollectionViewCell.identifier)
 
-        favourites = favouritesDataManager?.get().map({ FavouritesViewModel(name: $0.name, record: $0.record) }) ?? []
-        print("favourites array: \(favourites)")
+        getFavourites()
         
         NSLayoutConstraint.activate([
             favouritesCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -68,32 +68,29 @@ class FavouritesViewController: UIViewController,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavouritesCollectionViewCell.identifier,
-                                                            for: indexPath) as? FavouritesCollectionViewCell
-        else { return UICollectionViewCell() }
-        
         let item = favourites[indexPath.item]
-        cell.set(item)
 
-        cell.delegate = self
-
-        return cell
-        
-//        switch item {
-//        case let .team(model):
-//            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamDetailsCollectionViewCell.identifier,
-//                                                             for: indexPath) as? TeamDetailsCollectionViewCell {
-//                cell.set(model)
-//                return cell
-//            }
-//        case let .schedule(model):
-//            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScheduleDetailsCollectionViewCell.identifier,
-//                                                             for: indexPath) as? ScheduleDetailsCollectionViewCell {
-//                cell.set(model)
-//                return cell
-//            }
-//        }
-//        return UICollectionViewCell()
+        switch item {
+        case let .team(model):
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavouritesTeamsCollectionViewCell.identifier,
+                                                             for: indexPath) as? FavouritesTeamsCollectionViewCell {
+                cell.set(model)
+                cell.deleteClosure = { [weak self] in
+                    self?.didTapButton(selectedIndex: indexPath)
+                }
+                return cell
+            }
+        case let .schedule(model):
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavouritesScheduleCollectionViewCell.identifier,
+                                                             for: indexPath) as? FavouritesScheduleCollectionViewCell {
+                cell.set(model)
+                cell.deleteClosure = { [weak self] in
+                    self?.didTapButton(selectedIndex: indexPath)
+                }
+                return cell
+            }
+        }
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -104,13 +101,30 @@ class FavouritesViewController: UIViewController,
         return CGSize(width: widthCell, height: heightCell)
     }
     
+    private func getFavourites() {
+        
+        teams = favouritesDataManager?.getTeams() ?? []
+        favourites.append(contentsOf: teams.map { .team(.init(name: $0.name, record: $0.record, id: $0.id)) })
+        
+        schedules = favouritesDataManager?.getSchedule() ?? []
+        favourites.append(contentsOf: schedules.map { .schedule(.init(homeTeam: $0.homeTeam, dateEvent: $0.dateEvent, id: $0.id)) })
+        
+        favouritesCollectionView.reloadData()
+    }
+    
     func set(_ data: FavouritesDataManager) {
         favouritesDataManager = data
     }
 
-    func didTapButton(selectedIndex: Int) {
+    func didTapButton(selectedIndex: IndexPath) {
         
-        favouritesDataManager?.removeItem(at: selectedIndex)
-        favouritesCollectionView.reloadData()
+        let item = favourites[selectedIndex.item]
+        
+        switch item {
+        case let .team(model):
+            favouritesDataManager?.removeTeam(with: model.id)
+        case let .schedule(model):
+            favouritesDataManager?.removeSchedule(with: model.id)
+        }
     }
 }

@@ -8,52 +8,75 @@
 import Foundation
 import UIKit
 
+struct TeamFavouritesModel: Codable {
+    let name: String
+    let record: String
+    let id: Int
+}
+
+struct ScheduleFavouritesModel: Codable {
+    let homeTeam: String
+    let dateEvent: Date
+    let id: Int
+}
+
 class FavouritesDataManager {
     
-    private var teamFavourites = [TeamFavouritesModel]()
+    private var teamFavourites = [TeamDetailsViewModel]()
     private var scheduleFavourites = [ScheduleDetailsViewModel]()
     
     var storageManager: StorageManagerProtocol?
-      
-    func addTeam(_ data: TeamFavouritesModel) {
+
+    func addTeam(_ data: TeamDetailsViewModel) {
         
-        teamFavourites.append(data)
-        print("add team count: \(teamFavourites.count)")
+        if !teamFavourites.contains(where: { $0 == data }) {
+            teamFavourites.append(data)
+            print(teamFavourites.count)
+        }
     }
     
     func addSchedule(_ data: ScheduleDetailsViewModel) {
-        scheduleFavourites.append(data)
-        print(scheduleFavourites.count)
+        
+        if !scheduleFavourites.contains(where: { $0 == data }) {
+            scheduleFavourites.append(data)
+            print(scheduleFavourites.count)
+        }
     }
     
-    var arrayCommon: [TeamFavouritesModel] = [
-        .init(name: "a", record: "3-2"),
-        .init(name: "b", record: "3-2"),
-        .init(name: "c", record: "3-2"),
-        .init(name: "d", record: "3-2")
-    ]
+    func getTeams() -> [TeamFavouritesModel] {
+                
+        print(teamFavourites.count)
+        return teamFavourites.map({ .init(name: $0.name, record: $0.record, id: $0.teamID) })
+        
+    }
     
-    func get() -> [TeamFavouritesModel] {
+    func getSchedule() -> [ScheduleFavouritesModel] {
 
-//        print("teamFavourites count: \(teamFavourites.count)")
-//        return teamFavourites
-       
-        return arrayCommon
+        return scheduleFavourites.map({ .init(homeTeam: $0.homeTeam, dateEvent: $0.dateEvent, id: $0.sportID) })
     }
     
-    func removeItem(at data: Int) {
-        arrayCommon.remove(at: data)
-//        teamFavourites.remove(at: data)
+    func removeTeam(with teamId: Int) {
+
+        teamFavourites.removeAll(where: { $0.teamID == teamId })
+        print(teamFavourites)
+    }
+    
+    func removeSchedule(with sportId: Int) {
+
+        scheduleFavourites.removeAll(where: { $0.sportID == sportId })
+        print(scheduleFavourites)
     }
 
     func isFavourite() -> Bool {
 
-        return true
+        var likes : Bool {
+            get {
+                return UserDefaults.standard.bool(forKey: "likes")
+            }
+            set {
+                UserDefaults.standard.set(newValue, forKey: "likes")
+            }
+        }
+        return likes
     }
-}
-
-
-struct TeamFavouritesModel: Codable {
-    let name: String
-    let record: String
 }

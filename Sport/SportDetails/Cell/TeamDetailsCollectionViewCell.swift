@@ -13,11 +13,12 @@ import UIKit
             "record": "7-4"
  */
 
-struct TeamDetailsViewModel {
+struct TeamDetailsViewModel: Hashable {
     let abbreviation: String
     let name: String
     let mascot: String
     let record: String
+    let teamID: Int
 }
 
 class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
@@ -72,15 +73,8 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
         addButton.translatesAutoresizingMaskIntoConstraints = false
         return addButton
     }()
-    
-    var likes : Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "likes")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "likes")
-        }
-    }
+
+    var likesAction: (() -> Void)?
      
     override func setupView() {
         super.setupView()
@@ -98,7 +92,6 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
         contentView.addSubview(favouritesAddButton)
         
         favouritesAddButton.addTarget(self, action: #selector(tapToFavouritesAction), for: .touchUpInside)
-        favouritesAddButton.isSelected = likes
         favouritesAddButton.setImage(UIImage(systemName: "heart"), for: .normal)
         favouritesAddButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         
@@ -127,8 +120,8 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
     
     @objc
     func tapToFavouritesAction() {
-        likes = !favouritesAddButton.isSelected
-        favouritesAddButton.isSelected = likes
+        
+        likesAction?()
     }
     
 //    static func size(for data: TeamDetailsViewModel, containerSize: CGSize) -> CGSize {

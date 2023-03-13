@@ -108,12 +108,18 @@ class SportDetailsViewController:  UIViewController,
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamDetailsCollectionViewCell.identifier,
                                                              for: indexPath) as? TeamDetailsCollectionViewCell {
                 cell.set(model)
+                cell.likesAction = { [weak self] in
+                    self?.addToFavourites(selectedIndex: indexPath)
+                }
                 return cell
             }
         case let .schedule(model):
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScheduleDetailsCollectionViewCell.identifier,
                                                              for: indexPath) as? ScheduleDetailsCollectionViewCell {
                 cell.set(model)
+                cell.likesAction = { [weak self] in
+                    self?.addToFavourites(selectedIndex: indexPath)
+                }
                 return cell
             }
         }
@@ -126,11 +132,6 @@ class SportDetailsViewController:  UIViewController,
         let widthCell = frame.width - CGFloat(20)
         let heightCell = CGFloat(140)
         return CGSize(width: widthCell, height: heightCell)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        addToFavourites(selectedIndex: indexPath)
     }
     
 // MARK: - setData methods
@@ -155,21 +156,24 @@ class SportDetailsViewController:  UIViewController,
             itemsToDisplay = teams.map({ TeamDetailsViewModel(abbreviation: $0.abbreviation,
                                                               name: $0.name,
                                                               mascot: $0.mascot,
-                                                              record: $0.record)
+                                                              record: $0.record,
+                                                              teamID: $0.teamID)
             }).map({ .team($0) })
             detailsCollectionView.reloadData()
         case 1:
             itemsToDisplay = schedules.map({ ScheduleDetailsViewModel(dateEvent: $0.dateEvent,
                                                                       eventLocation: $0.eventLocation,
                                                                       homeTeam: $0.homeTeam,
-                                                                      leagueName: $0.leagueName)
+                                                                      leagueName: $0.leagueName,
+                                                                      sportID: $0.sportID)
             }).map({ .schedule($0) })
             detailsCollectionView.reloadData()
         default:
             itemsToDisplay = teams.map({ TeamDetailsViewModel(abbreviation: $0.abbreviation,
                                                               name: $0.name,
                                                               mascot: $0.mascot,
-                                                              record: $0.record)
+                                                              record: $0.record,
+                                                              teamID: $0.teamID)
             }).map({ .team($0) })
             detailsCollectionView.reloadData()
         }
@@ -194,7 +198,8 @@ class SportDetailsViewController:  UIViewController,
             self.itemsToDisplay = teamArray.map({ TeamDetailsViewModel(abbreviation: $0.abbreviation,
                                                                        name: $0.name,
                                                                        mascot: $0.mascot,
-                                                                       record: $0.record)
+                                                                       record: $0.record,
+                                                                       teamID: $0.teamID)
             }).map({ .team($0) })
             
             self.dispatchGroup.leave()
@@ -211,7 +216,8 @@ class SportDetailsViewController:  UIViewController,
             self.itemsToDisplay = schedulesArray.map({ ScheduleDetailsViewModel(dateEvent: $0.dateEvent,
                                                                                 eventLocation: $0.eventLocation,
                                                                                 homeTeam: $0.homeTeam,
-                                                                                leagueName: $0.leagueName)
+                                                                                leagueName: $0.leagueName,
+                                                                                sportID: $0.sportID)
             }).map({ .schedule($0) })
             
             self.dispatchGroup.leave()
@@ -224,12 +230,11 @@ class SportDetailsViewController:  UIViewController,
         
         switch item {
         case let .team(model):
-            let mapArray = model
             favouritesDataManager?.addTeam(model)
         case let .schedule(model):
             favouritesDataManager?.addSchedule(model)
         }
-        
+
 //        let alertController = UIAlertController(title: title, message: "successfully added to favorites ⭐️", preferredStyle: .alert)
 //        let okAction = UIAlertAction(title: "OK", style: .default)
 //        alertController.addAction(okAction)

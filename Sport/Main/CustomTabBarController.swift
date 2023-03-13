@@ -25,10 +25,11 @@ class CustomTabBarController: UITabBarController {
         let favoritesNavViewController = UINavigationController(rootViewController: favoritesViewController)
         
         let sportDataManager = SportsDataManager()
-        generalViewController.set(sportDataManager)
-        
         let favouritesDataManager = FavouritesDataManager()
+
+        generalViewController.set(sportDataManager, favouritesDataManager)
         favoritesViewController.set(favouritesDataManager)
+                
         let userDefaultsStorageManager = UserDefaultsStorageManager()
         userDefaultsStorageManager.setDataFromMananger(favouritesDataManager)
         

@@ -1,5 +1,5 @@
 //
-//  FavouritesCollectionViewCell.swift
+//  FavouritesTeamsCollectionViewCell.swift
 //  Sport
 //
 //  Created by Yuliya on 06/03/2023.
@@ -7,23 +7,17 @@
 
 import UIKit
 
-protocol FavouritesCollectionViewCellDelegate: AnyObject {
-    func didTapButton(selectedIndex: Int)
-}
-
-struct FavouritesViewModel {
+struct FavouritesTeamViewModel {
     let name: String
     let record: String
-//    let dateEvent: Date
+    let id: Int
 }
 
-class FavouritesCollectionViewCell: BaseCollectionViewCell {
+class FavouritesTeamsCollectionViewCell: BaseCollectionViewCell {
     
     static var identifier: String {
-        return String(describing: FavouritesCollectionViewCell.self)
+        return String(describing: FavouritesTeamsCollectionViewCell.self)
     }
-    var index = 0
-    weak var delegate: FavouritesCollectionViewCellDelegate?
     
     private let nameLabel: UILabel = {
         let label = UILabel()
@@ -70,18 +64,19 @@ class FavouritesCollectionViewCell: BaseCollectionViewCell {
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 10
         
-        let stackView = UIStackView(arrangedSubviews: [nameLabel, recordLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 50
-        
-        contentView.addSubview(stackView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(recordLabel)
         contentView.addSubview(deleteButton)
         deleteButton.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            recordLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 20),
+            recordLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            recordLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -10),
             
             deleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
@@ -90,15 +85,17 @@ class FavouritesCollectionViewCell: BaseCollectionViewCell {
         ])
     }
     
-    func set(_ data: FavouritesViewModel) {
+    func set(_ data: FavouritesTeamViewModel) {
         
         nameLabel.text = data.name
         recordLabel.text = data.record
-//        dateEventLabel.text = dateFormatter.string(from: data.dateEvent)
     }
     
+    var deleteClosure: (() -> Void)?
+        
     @objc
     func deleteAction() {
-        delegate?.didTapButton(selectedIndex: index)
+        
+        deleteClosure?()
     }
 }

@@ -13,11 +13,12 @@ import UIKit
                 "league_name": "National Football League"
  */
 
-struct ScheduleDetailsViewModel {
+struct ScheduleDetailsViewModel: Hashable {
     let dateEvent: Date
     let eventLocation: String
     let homeTeam: String
     let leagueName: String
+    let sportID: Int
 }
 
 class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
@@ -71,14 +72,8 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
         return addButton
     }()
     
-    var likes : Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "likes")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "likes")
-        }
-    }
+    var likesAction: (() -> Void)?
+    
     override func setupView() {
         super.setupView()
         
@@ -95,7 +90,6 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
         contentView.addSubview(favouritesAddButton)
         
         favouritesAddButton.addTarget(self, action: #selector(tapToFavouritesAction), for: .touchUpInside)
-        favouritesAddButton.isSelected = likes
         favouritesAddButton.setImage(UIImage(systemName: "heart"), for: .normal)
         favouritesAddButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         
@@ -123,7 +117,7 @@ class ScheduleDetailsCollectionViewCell: BaseCollectionViewCell {
     
     @objc
     func tapToFavouritesAction() {
-        likes = !favouritesAddButton.isSelected
-        favouritesAddButton.isSelected = likes
+        
+        likesAction?()
     }
 }
