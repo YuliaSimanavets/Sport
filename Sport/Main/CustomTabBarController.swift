@@ -22,16 +22,23 @@ class CustomTabBarController: UITabBarController {
         let generalViewController = GeneralViewController()
         let generalNavViewController = UINavigationController(rootViewController: generalViewController)
         let favoritesViewController = FavouritesViewController()
+        let favoritesNavViewController = UINavigationController(rootViewController: favoritesViewController)
         
         let sportDataManager = SportsDataManager()
-        generalViewController.set(sportDataManager)
+        let favouritesDataManager = FavouritesDataManager()
+
+        generalViewController.set(sportDataManager, favouritesDataManager)
+        favoritesViewController.set(favouritesDataManager)
+                
+        let userDefaultsStorageManager = UserDefaultsStorageManager()
+        userDefaultsStorageManager.setDataFromMananger(favouritesDataManager)
         
         viewControllers = [
             generateViewController(viewController: generalNavViewController,
                                    title: "Schedule",
                                    image: UIImage(systemName: "tablecells.badge.ellipsis"),
                                    backgroundColor: UIColor.backViewControllers),
-            generateViewController(viewController: favoritesViewController,
+            generateViewController(viewController: favoritesNavViewController,
                                    title: "Favourites",
                                    image: UIImage(systemName: "star.bubble"),
                                    backgroundColor: UIColor.backViewControllers)

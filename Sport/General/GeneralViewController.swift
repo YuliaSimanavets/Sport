@@ -12,7 +12,8 @@ class GeneralViewController: UIViewController,
                              UICollectionViewDataSource,
                              UICollectionViewDelegateFlowLayout {
     
-    var sportsDataManager: SportsDataManager?
+    private var sportsDataManager: SportsDataManager?
+    private var favouritesDataManager: FavouritesDataManager?
     
     private let activityIndicator = UIActivityIndicatorView()
     
@@ -109,8 +110,9 @@ class GeneralViewController: UIViewController,
         return CGSize(width: widthCell, height: heightCell)
     }
     
-    func set(_ data: SportsDataManager) {
-        sportsDataManager = data
+    func set(_ dataSport: SportsDataManager, _ dataFavourites: FavouritesDataManager) {
+        sportsDataManager = dataSport
+        favouritesDataManager = dataFavourites
     }
 
     private func createActivityIndicator() {
@@ -128,8 +130,9 @@ class GeneralViewController: UIViewController,
         
         let detailsVC = SportDetailsViewController()
         navigationController?.pushViewController(detailsVC, animated: true)
-        
+                
         detailsVC.setSportIdAndName(sportID: sportID, title: sportName)
         detailsVC.set(sportsDataManager)
+        detailsVC.setFavourites(favouritesDataManager)
     }
 }

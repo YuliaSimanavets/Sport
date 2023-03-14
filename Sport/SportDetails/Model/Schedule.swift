@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct SchedulesData: Decodable {
+struct SchedulesData: Codable {
     let schedules: [ScheduleModel]
 }
 
-struct ScheduleModel: Decodable {
+struct ScheduleModel: Codable {
     let dateEvent: Date
     let eventLocation: String
     let homeTeam: String

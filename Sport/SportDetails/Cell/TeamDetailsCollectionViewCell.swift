@@ -13,11 +13,12 @@ import UIKit
             "record": "7-4"
  */
 
-struct TeamDetailsViewModel {
+struct TeamDetailsViewModel: Hashable {
     let abbreviation: String
     let name: String
     let mascot: String
     let record: String
+    let teamID: Int
 }
 
 class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
@@ -65,7 +66,16 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
- 
+    
+    private let favouritesAddButton: UIButton = {
+        let addButton = UIButton()
+        addButton.tintColor = .systemPink
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        return addButton
+    }()
+
+    var likesAction: (() -> Void)?
+     
     override func setupView() {
         super.setupView()
         
@@ -79,8 +89,18 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
         
         contentView.addSubview(stackView)
         contentView.addSubview(teamMascotLabel)
+        contentView.addSubview(favouritesAddButton)
+        
+        favouritesAddButton.addTarget(self, action: #selector(tapToFavouritesAction), for: .touchUpInside)
+        favouritesAddButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        favouritesAddButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         
         NSLayoutConstraint.activate([
+            favouritesAddButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Sizes.topBottomOffset),
+            favouritesAddButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Sizes.trailingOffset),
+            favouritesAddButton.widthAnchor.constraint(equalToConstant: 25),
+            favouritesAddButton.heightAnchor.constraint(equalToConstant: 25),
+            
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Sizes.topBottomOffset),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Sizes.leadingOffset),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Sizes.trailingOffset),
@@ -96,6 +116,12 @@ class TeamDetailsCollectionViewCell: BaseCollectionViewCell {
         teamNameLabel.text = data.name
         teamMascotLabel.text = data.mascot
         teamRecordLabel.text = data.record
+    }
+    
+    @objc
+    func tapToFavouritesAction() {
+        
+        likesAction?()
     }
     
 //    static func size(for data: TeamDetailsViewModel, containerSize: CGSize) -> CGSize {
